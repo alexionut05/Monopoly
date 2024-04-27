@@ -1,0 +1,10 @@
+{
+	"init_count": "How many players will be playing? ({{min}}-{{max}}): ",
+	"invalid_count": "Invalid number of players!",
+	"init_name": "Enter the name of player {{count}}: ",
+	"short_name": "Name must be at least {{min}} characters long!",
+	"long_name": "Name must be at most {{max}} characters long!",
+	"bank_name": "You are not the Bank! (or are you?)",
+	"duplicate_name": "Name already taken!",
+	"remove_player": "{{player}} was too broke for this world!"
+}

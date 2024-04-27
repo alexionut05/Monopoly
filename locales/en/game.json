@@ -1,0 +1,5 @@
+{
+	"welcome": "Welcome to Monopoly! Thank you for choosing to play this.",
+	"winner": "Congratulations, {{winner}}! You have won the game!",
+	"thanks": "Thank you for playing Monopoly! {{nl}}Make sure to star the project on GitHub if you enjoyed it!"
+}
