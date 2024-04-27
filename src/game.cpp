@@ -30,7 +30,7 @@ void Game::InitGame()
 	InitPlayers();
 
 	// Run game
-	RunGame();
+	// RunGame();
 }
 
 void Game::RunGame()
@@ -44,6 +44,9 @@ void Game::RunGame()
 				RemovePlayer(i);
 				--i;
 			}
+		}
+		if (players_.size() == 1) {
+			winner_index = 0;
 		}
 	}
 
