@@ -18,7 +18,7 @@ Un joc de Monopoly in comanda de linie. Momentan suporta doar initializarea juca
 - [X] cât mai multe `const` (unde este cazul)
 - [X] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
   - nu doar citiri/afișări sau adăugat/șters elemente într-un/dintr-un vector
-- [ ] scenariu de utilizare a claselor definite:
+- [X] scenariu de utilizare a claselor definite:
   - crearea de obiecte și apelarea tuturor funcțiilor membru publice în main
   - vor fi adăugate în fișierul `tastatura.txt` DOAR exemple de date de intrare de la tastatură (dacă există); dacă aveți nevoie de date din fișiere, creați alte fișiere separat
 - [ ] tag de `git`: de exemplu `v0.1`
