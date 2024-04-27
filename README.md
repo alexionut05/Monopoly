@@ -1,6 +1,8 @@
 # Monopoly
 Un joc de Monopoly in comanda de linie. Momentan suporta doar initializarea jucatorilor si a proprietatilor, dar va fi extins in viitor. (maine)
 
+Nu imi este foarte clar de ce Valgrind (si alte similare) crapa? Din ce am citit de prin outputuri, e clar problema ca nu citeste properly tastatura.txt dar nu pot sa imi dau seama de ce.
+
 ### Tema 0
 
 - [X] Nume proiect (poate fi schimbat ulterior)
