@@ -1,10 +1,8 @@
 #include "tiles/railroad.hpp"
 
 // Constructor and Destructor
-Railroad::Railroad()
-{
-	owner_ = "Bank";
-}
+Railroad::Railroad(const int tile_cost, const std::string &name, const std::string &owner, const int tile_level, const std::array<int, 4> rent)
+	: Tile(tile_cost, name, owner), tile_level_(tile_level), rent_(rent) {}
 
 Railroad::~Railroad() {}
 
@@ -17,22 +15,6 @@ int Railroad::GetTileLevel() const
 std::array<int, 4> Railroad::GetRent() const
 {
 	return rent_;
-}
-
-// Setters
-void Railroad::SetTileCost(const int tile_cost)
-{
-	tile_cost_ = tile_cost;
-}
-
-void Railroad::SetTileLevel(const int tile_level)
-{
-	tile_level_ = tile_level;
-}
-
-void Railroad::SetRent(const std::array<int, 4> rent)
-{
-	rent_ = rent;
 }
 
 // Print

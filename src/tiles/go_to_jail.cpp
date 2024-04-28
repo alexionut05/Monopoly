@@ -1,10 +1,8 @@
 #include "tiles/go_to_jail.hpp"
 
 // Constructor and Destructor
-GoToJail::GoToJail()
-{
-	owner_ = "Bank";
-}
+GoToJail::GoToJail(const std::string &name, const std::string &owner)
+	: Tile(0, name, owner) {}
 
 GoToJail::~GoToJail() {}
 

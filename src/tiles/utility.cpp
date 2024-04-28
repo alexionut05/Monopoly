@@ -1,11 +1,8 @@
 #include "tiles/utility.hpp"
 
 // Constructor and Destructor
-Utility::Utility()
-{
-	tile_level_ = 0;
-	owner_ = "Bank";
-}
+Utility::Utility(const int tile_cost, const std::string &name, const std::string &owner, const int tile_level, const std::array<int, 2> dice_multiplier)
+	: Tile(tile_cost, name, owner), tile_level_(tile_level), dice_multiplier_(dice_multiplier) {}
 
 Utility::~Utility() {}
 
@@ -18,22 +15,6 @@ int Utility::GetTileLevel() const
 std::array<int, 2> Utility::GetDiceMultiplier() const
 {
 	return dice_multiplier_;
-}
-
-// Setters
-void Utility::SetTileCost(const int tile_cost)
-{
-	tile_cost_ = tile_cost;
-}
-
-void Utility::SetTileLevel(const int tile_level)
-{
-	tile_level_ = tile_level;
-}
-
-void Utility::SetDiceMultiplier(const std::array<int, 2> dice_multiplier)
-{
-	dice_multiplier_ = dice_multiplier;
 }
 
 // Print

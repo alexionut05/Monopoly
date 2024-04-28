@@ -2,8 +2,6 @@
 #define PROPERTY_HPP
 
 #include "tile.hpp"
-#include <array>
-#include <iostream>
 
 enum {
 	BROWN_R = 165,
@@ -35,7 +33,8 @@ enum {
 class Property : public Tile {
 public:
 	// Constructor and Destructor
-	Property();
+	Property(const int tile_cost,  const std::string &name, const std::string &owner,
+		const int building_cost, const int tile_level, const std::string &colour, const std::string &colour_type, const std::array<int, 7> rent);
 	~Property();
 
 	// Getters
@@ -44,14 +43,6 @@ public:
 	std::string GetColour() const;
 	std::string GetColourType() const;
 	std::array<int, 7> GetRent() const;
-
-	// Setters
-	void SetTileCost(const int tile_cost);
-	void SetBuildingCost(const int building_cost);
-	void SetTileLevel(const int tile_level);
-	void SetColour(const std::string colour);
-	void SetColourType(const std::string colour_type);
-	void SetRent(const std::array<int, 7> rent);
 	
 	// Print
 	void Print(std::ostream &os) const;
@@ -69,5 +60,7 @@ private:
 	// 4 = single tile with 3 houses
 	// 5 = single tile with 4 houses
 	// 6 = single tile with hotel
+	// !pare redundant sa avem culoarea si ca nume, insa o pastrez pt accesibilitate
+	// !voi implementa mai tarziu
 };
 #endif // "PROPERTY_HPP"

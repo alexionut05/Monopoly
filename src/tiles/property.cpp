@@ -1,12 +1,10 @@
 #include "tiles/property.hpp"
 
 // Constructor and Destructor
-Property::Property()
-{
-	tile_level_ = 0;
-	owner_ = "Bank";
-}
-
+Property::Property(const int tile_cost, const std::string &name, const std::string &owner,
+	const int building_cost, const int tile_level, const std::string &colour, const std::string &colour_type, const std::array<int, 7> rent)
+	: Tile(tile_cost, name, owner), building_cost_(building_cost), tile_level_(tile_level), colour_(colour), colour_type_(colour_type), rent_(rent) {}
+	
 Property::~Property() {}
 
 // Getters
@@ -33,37 +31,6 @@ std::string Property::GetColourType() const
 std::array<int, 7> Property::GetRent() const
 {
 	return rent_;
-}
-
-// Setters
-void Property::SetTileCost(const int tile_cost)
-{
-	tile_cost_ = tile_cost;
-}
-
-void Property::SetBuildingCost(const int building_cost)
-{
-	building_cost_ = building_cost;
-}
-
-void Property::SetTileLevel(const int tile_level)
-{
-	tile_level_ = tile_level;
-}
-
-void Property::SetColour(const std::string colour)
-{
-	colour_ = colour;
-}
-
-void Property::SetColourType(const std::string colour_type)
-{
-	colour_type_ = colour_type;
-}
-
-void Property::SetRent(const std::array<int, 7> rent)
-{
-	rent_ = rent;
 }
 
 // Print

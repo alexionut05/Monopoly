@@ -1,10 +1,8 @@
 #include "tiles/go.hpp"
 
 // Constructor and Destructor
-Go::Go()
-{
-	owner_ = "Bank";
-}
+Go::Go(const std::string &name, const std::string &owner, const int pass_go_amount)
+	: Tile(0, name, owner), pass_go_amount_(pass_go_amount) {}
 
 Go::~Go() {}
 
@@ -12,12 +10,6 @@ Go::~Go() {}
 int Go::GetPassGoAmount() const
 {
 	return pass_go_amount_;
-}
-
-// Setters
-void Go::SetPassGoAmount(const int pass_go_amount)
-{
-	pass_go_amount_ = pass_go_amount;
 }
 
 // Print

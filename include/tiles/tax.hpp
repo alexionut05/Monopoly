@@ -6,20 +6,17 @@
 class Tax : public Tile {
 public:
 	// Constructor and Destructor
-	Tax();
+	Tax(const int tile_cost, const std::string &name, const std::string &owner, const int tax_amount);
 	~Tax();
 
 	// Getters
 	int GetTaxAmount() const;
 
-	// Setters
-	void SetTaxAmount(const int tax_amount);
-
 	// Print
 	void Print(std::ostream &os) const;
 	
 private:
-	int tax_amount_;
+	const int tax_amount_;
 };
 
 #endif // "TAX_HPP"

@@ -2,12 +2,11 @@
 #define GO_TO_JAIL_HPP
 
 #include "tile.hpp"
-#include <iostream>
 
 class GoToJail : public Tile {
 public:
 	// Constructor and Destructor
-	GoToJail();
+	GoToJail(const std::string &name, const std::string &owner);
 	~GoToJail();
 
 	// Print

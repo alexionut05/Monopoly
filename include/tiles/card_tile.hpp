@@ -2,12 +2,11 @@
 #define CARD_TILE_HPP
 
 #include "tile.hpp"
-#include <iostream>
 
 class CardTile : public Tile {
 public:
 	// Constructor and Destructor
-	CardTile();
+	CardTile(std::string &name, std::string &owner);
 	~CardTile();
 
 	// Print

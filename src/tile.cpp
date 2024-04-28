@@ -1,7 +1,8 @@
 #include "tile.hpp"
 
 // Constructor and Destructor
-Tile::Tile() {}
+Tile::Tile(const int tile_cost, const std::string name, const std::string owner)
+	: tile_cost_(tile_cost), name_(name), owner_(owner), players_here_({}) {}
 
 Tile::~Tile() {}
 

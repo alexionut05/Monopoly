@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 #include <iomanip>
+#include <iostream>
 #include <string>
 #include <vector>
 #include "termcolor.hpp"
@@ -11,7 +12,7 @@
 class Tile {
 public:
 	// Constructor and Destructor
-	Tile();
+	Tile(const int tile_cost, const std::string name, const std::string owner);
 	virtual ~Tile();
 
 	// Getters
@@ -19,11 +20,6 @@ public:
 	std::string GetName() const;
 	std::string GetOwner() const;
 	std::vector<std::string> GetPlayersHere() const;
-
-	// Setters
-	void SetName(const std::string name);
-	void SetOwner(const std::string owner);
-	void SetPlayersHere(const std::vector<std::string> players_here);
 
 	// Methods
 	void AddPlayerHere(const std::string player_name);

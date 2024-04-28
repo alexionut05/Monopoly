@@ -1,10 +1,8 @@
 #include "tiles/free_parking.hpp"
 
 // Constructor and Destructor
-FreeParking::FreeParking()
-{
-	owner_ = "Bank";
-}
+FreeParking::FreeParking(const std::string &name, const std::string &owner)
+	: Tile(0, name, owner) {}
 
 FreeParking::~FreeParking() {}
 

@@ -2,12 +2,11 @@
 #define FREE_PARKING_HPP
 
 #include "tile.hpp"
-#include <iostream>
 
 class FreeParking : public Tile {
 public:
 	// Constructor and Destructor
-	FreeParking();
+	FreeParking(const std::string &name, const std::string &owner);
 	~FreeParking();
 
 	// Print

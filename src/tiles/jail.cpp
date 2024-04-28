@@ -1,10 +1,8 @@
 #include "tiles/jail.hpp"
 
 // Constructor and Destructor
-Jail::Jail()
-{
-	owner_ = "Bank";
-}
+Jail::Jail(const int jail_fine)
+	: Tile(0, "Jail", "Bank"), jail_fine_(jail_fine) {}
 
 Jail::~Jail() {}
 
@@ -12,12 +10,6 @@ Jail::~Jail() {}
 int Jail::GetJailFine() const
 {
 	return jail_fine_;
-}
-
-// Setters
-void Jail::SetJailFine(const int jail_fine)
-{
-	jail_fine_ = jail_fine;
 }
 
 // Print
