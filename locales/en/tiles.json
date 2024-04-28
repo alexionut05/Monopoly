@@ -1,4 +1,5 @@
 {
+	"bank": "Bank",
 	"tiles":       [["Go", "Go", 200],
 			["Property", "Mediterranean Avenue", 60, 50, "Brown", "Brown", [2, 4, 10, 30, 90, 160, 250]],
 			["Community Chest", "Community Chest"],
