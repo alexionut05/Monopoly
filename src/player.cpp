@@ -130,8 +130,3 @@ bool Player::IsDoomedInJail(const int bail) const
 	}
 	return false;
 }
-
-bool Player::HasGetOutOfJailCard() const
-{
-	return get_out_of_jail_cards_count_ > 0;
-}
