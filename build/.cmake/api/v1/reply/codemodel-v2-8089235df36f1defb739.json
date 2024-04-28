@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-d8d76b17f6d773d5fa2c.json",
+					"jsonFile" : "directory-.-Debug-6f0a11ef1f01d434af61.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.24"
@@ -40,7 +40,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "monopoly::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-monopoly-Debug-f489b5407c12638496ee.json",
+					"jsonFile" : "target-monopoly-Debug-11a5dc50eacd0d7fff45.json",
 					"name" : "monopoly",
 					"projectIndex" : 0
 				}

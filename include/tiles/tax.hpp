@@ -14,6 +14,9 @@ public:
 
 	// Setters
 	void SetTaxAmount(const int tax_amount);
+
+	// Print
+	void Print(std::ostream &os) const;
 	
 private:
 	int tax_amount_;

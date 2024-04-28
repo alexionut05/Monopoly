@@ -2,6 +2,7 @@
 #define JAIl_HPP
 
 #include "tile.hpp"
+#include <iostream>
 
 class Jail : public Tile {
 public:
@@ -12,8 +13,14 @@ public:
 	// Getters
 	int GetJailFine() const;
 
+	// Setters
+	void SetJailFine(const int jail_fine);
+
+	// Print
+	void Print(std::ostream &os) const;
+	
 private:
-	const int jail_fine_ = 50;
+	int jail_fine_;
 };
 
 #endif // "JAIl_HPP"

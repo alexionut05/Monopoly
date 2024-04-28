@@ -27,13 +27,7 @@ public:
 	void SetJailTurns(int jail_turns);
 	void SetGetOutOfJailCardsCount(int get_out_of_jail_cards_count);
 	void SetDoubleCount(int double_count);
-
-	// Methods
-	void AddBalance(int amount);
-	void AddPosition(int amount);
-	void AddGetOutOfJailCardsCount(int amount);
-	void AddDoubleCount(int amount);
-
+	
 private:
 	bool is_active_;
 	std::string name_;

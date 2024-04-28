@@ -2,12 +2,16 @@
 #define FREE_PARKING_HPP
 
 #include "tile.hpp"
+#include <iostream>
 
-class Parking : public Tile {
+class FreeParking : public Tile {
 public:
 	// Constructor and Destructor
-	Parking();
-	~Parking();
+	FreeParking();
+	~FreeParking();
+
+	// Print
+	void Print(std::ostream &os) const;
 };
 
 #endif // "FREE_PARKING_HPP"

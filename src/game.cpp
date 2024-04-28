@@ -7,6 +7,7 @@ Game::~Game() {};
 // Game methods
 void Game::InitGame()
 {
+	ClearScreen();
 	// Choose language
 	do {
 		std::cout << "Choose language (en): ";
@@ -25,6 +26,10 @@ void Game::InitGame()
 	// Welcome message
 	std::string message = game_locales_["welcome"].get<std::string>();
 	std::cout << message << std::endl;
+
+	// Init decks
+	chance_deck_ = Deck(language_, "chance");
+	community_deck_ = Deck(language_, "community_chest");
 
 	// Init players
 	InitPlayers();
@@ -170,4 +175,14 @@ void Game::RemovePlayer(const int player_index)
 	std::cout << message << std::endl;
 
 	players_.erase(players_.begin() + player_index);
+}
+
+// Clear screen
+void Game::ClearScreen()
+{
+	#ifdef WINDOWS
+    		std::system("cls");
+	#else
+		std::system ("clear");
+	#endif
 }

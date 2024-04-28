@@ -90,28 +90,3 @@ void Player::SetDoubleCount(int double_count)
 {
 	double_count_ = double_count;
 }
-
-// Methods
-void Player::AddBalance(int amount)
-{
-	balance_ += amount;
-}
-
-void Player::AddPosition(int amount)
-{
-	position_ += amount;
-	if (position_ >= 40) {
-		position_ -= 40;
-		balance_ += 200;
-	}
-}
-
-void Player::AddGetOutOfJailCardsCount(int amount)
-{
-	get_out_of_jail_cards_count_ += amount;
-}
-
-void Player::AddDoubleCount(int amount)
-{
-	double_count_ += amount;
-}

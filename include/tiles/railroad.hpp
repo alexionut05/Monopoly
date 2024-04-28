@@ -12,11 +12,21 @@ public:
 
 	// Getters
 	int GetTileCost() const;
+	int GetTileLevel() const;
 	std::array<int, 4> GetRent() const;
 
+	// Setters
+	void SetTileCost(const int tile_cost);
+	void SetTileLevel(const int tile_level);
+	void SetRent(const std::array<int, 4> rent);
+
+	// Print
+	void Print(std::ostream &os) const;
+
 private:
-	const int tile_cost_ = 200;
-	const std::array<int, 4> rent_ = {25, 50, 100, 200};
+	int tile_cost_;
+	int tile_level_;
+	std::array<int, 4> rent_;
 };
 
 #endif // "RAIlROAD_HPP"

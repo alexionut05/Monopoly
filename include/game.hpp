@@ -2,13 +2,16 @@
 #define GAME_HPP
 
 #include "board.hpp"
+#include "deck.hpp"
 #include "dice.hpp"
 #include "player.hpp"
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <vector>
 #include "json.hpp"
+#include "termcolor.hpp"
 
 class Game {
 public:
@@ -31,14 +34,23 @@ public:
 	void AddPlayer(const Player &player);
 	void RemovePlayer(const int player_index);
 
+	// Card methods
+
+
 	// Prompts
 	void LearnAllTiles();
 	void LearnTile();
 
+	// Clear screen
+	void ClearScreen();
+
 private:
 	Board board_;
-	std::vector<Player> players_;
+	Deck chance_deck_;
+	Deck community_deck_;
 	Dice dice_;
+	std::vector<Player> players_;
+
 	std::string language_;
 	const size_t min_players_ = 2;
 	const size_t max_players_ = 8;

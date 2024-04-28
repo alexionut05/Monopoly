@@ -12,11 +12,21 @@ public:
 
 	// Getters
 	int GetTileCost() const;
+	int GetTileLevel() const;
 	std::array<int, 2> GetDiceMultiplier() const;
 
+	// Setters
+	void SetTileCost(const int tile_cost);
+	void SetTileLevel(const int tile_level);
+	void SetDiceMultiplier(const std::array<int, 2> dice_multiplier);
+
+	// Print
+	void Print(std::ostream &os) const;
+
 private:
-	const int tile_cost_ = 150;
-	const std::array<int, 2> dice_multiplier_ = {4, 10};
+	int tile_cost_;
+	int tile_level_;
+	std::array<int, 2> dice_multiplier_;
 };
 
 #endif // "UTILITY_HPP"

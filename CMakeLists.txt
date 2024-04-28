@@ -90,7 +90,9 @@ endfunction()
 ###############################################################################
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
-add_executable(${PROJECT_NAME} main.cpp src/board.cpp src/dice.cpp src/game.cpp src/player.cpp src/tile.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+    src/board.cpp src/card.cpp src/deck.cpp src/dice.cpp src/game.cpp src/player.cpp src/tile.cpp
+    src/tiles/card_tile.cpp src/tiles/free_parking.cpp src/tiles/go_to_jail.cpp src/tiles/go.cpp src/tiles/jail.cpp src/tiles/property.cpp src/tiles/railroad.cpp src/tiles/tax.cpp src/tiles/utility.cpp)
 
 ###############################################################################
 
@@ -124,12 +126,15 @@ set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
 
 # use SYSTEM so cppcheck/clang-tidy does not report warnings from these directories
 add_library(nlohmann_json INTERFACE)
+add_library(termcolor INTERFACE)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
 target_include_directories(nlohmann_json INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/ext)
+target_include_directories(termcolor INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/ext)
 # target_link_directories(${PROJECT_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE termcolor)
 
 ###############################################################################
 

@@ -16,6 +16,11 @@ std::string Tile::GetOwner() const
 	return owner_;
 }
 
+std::vector<std::string> Tile::GetPlayersHere() const
+{
+	return players_here_;
+}
+
 // Setters
 void Tile::SetName(const std::string name)
 {
@@ -27,8 +32,14 @@ void Tile::SetOwner(const std::string owner)
 	owner_ = owner;
 }
 
-// Methods
-void Tile::TransferOwnership(const std::string new_owner)
+void Tile::SetPlayersHere(const std::vector<std::string> players_here)
 {
-	owner_ = new_owner;
+	players_here_ = players_here;
 }
+
+// Print
+void Tile::Print(std::ostream &os) const
+{
+	os << " Wtf? This isn't supposed to happen!" << std::endl;
+}
+
