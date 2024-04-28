@@ -113,7 +113,6 @@ void Property::Print(std::ostream &os) const
 	os << padding_left << name_ << padding_right << termcolor::reset;
 
 	std::string padding = "";
-	int padding_size = 0;
 	os << termcolor::italic << " ";
 	if (owner_ == "Bank") {
 		os << "(Unowned)";
@@ -121,7 +120,7 @@ void Property::Print(std::ostream &os) const
 	} else {
 		os << "(" << owner_ << ")";
 		padding = "";
-		padding_size = k_max_player_name_length - owner_.length();
+		int padding_size = k_max_player_name_length - owner_.length();
 		for (int i = 0; i < padding_size; i++) {
 			padding += " ";
 		}

@@ -58,7 +58,6 @@ void Railroad::Print(std::ostream &os) const
 	os << termcolor::reset;
 
 	std::string padding = "";
-	int padding_size = 0;
 	os << termcolor::italic;
 	if (GetOwner() == "Bank") {
 		os << " (Unowned)";
@@ -66,7 +65,7 @@ void Railroad::Print(std::ostream &os) const
 	} else {
 		os << " (" << GetOwner() << ")";
 		padding = "";
-		padding_size = k_max_player_name_length - owner_.length();
+		int padding_size  = k_max_player_name_length - owner_.length();
 		for (int i = 0; i < padding_size; ++i) {
 			padding += " ";
 		}
