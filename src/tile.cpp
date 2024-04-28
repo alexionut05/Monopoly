@@ -46,3 +46,9 @@ void Tile::SetOwner(const std::string owner)
 {
 	owner_ = owner;
 }
+
+// Methods
+void Tile::TransferOwnership(const std::string new_owner)
+{
+	owner_ = new_owner;
+}

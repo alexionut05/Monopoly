@@ -22,6 +22,9 @@ public:
 	void SetColour(const std::string colour);
 	void SetOwner(const std::string owner);
 
+	// Methods
+	void TransferOwnership(const std::string new_owner);
+
 protected:
 	std::string name_;
 	std::string type_;
