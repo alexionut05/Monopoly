@@ -1,6 +1,7 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
+#include <algorithm>
 #include <array>
 #include <iomanip>
 #include <string>
@@ -14,6 +15,7 @@ public:
 	virtual ~Tile();
 
 	// Getters
+	int GetTileCost() const;
 	std::string GetName() const;
 	std::string GetOwner() const;
 	std::vector<std::string> GetPlayersHere() const;
@@ -23,10 +25,15 @@ public:
 	void SetOwner(const std::string owner);
 	void SetPlayersHere(const std::vector<std::string> players_here);
 
+	// Methods
+	void AddPlayerHere(const std::string player_name);
+	void RemovePlayerHere(const std::string player_name);
+
 	// Print
 	virtual void Print(std::ostream &os) const = 0;
 
 protected:
+	int tile_cost_;
 	std::string name_;
 	std::string owner_;
 	std::vector<std::string> players_here_;

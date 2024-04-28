@@ -34,12 +34,22 @@ public:
 	void AddPlayer(const Player &player);
 	void RemovePlayer(const int player_index);
 
-	// Card methods
+	// Board methods
+	void MovePlayerAt(const int player_index, const int position);
+	void MovePlayerBy(const int player_index, const int steps);
 
-
-	// Prompts
-	void LearnAllTiles();
-	void LearnTile();
+	// Print methods
+	void PrintBlank();
+	void PrintTurnStartJail(const int player_index);
+	void PrintJailBroke();
+	void PrintOptionInfoTile();
+	void PrintOptionBuyTile();
+	void PrintOptionSellTile();
+	void PrintOptionBuyHouse();
+	void PrintOptionSellHouse();
+	void PrintOptionUseGetOutOfJailCard(const int player_index);
+	void PrintOptionTryDouble();
+	void PrintOptionPayFine();
 
 	// Clear screen
 	void ClearScreen();
@@ -56,6 +66,8 @@ private:
 	const size_t max_players_ = 8;
 	const size_t min_name_length_ = 3;
 	const size_t max_name_length_ = 10;
+	const int chance_deck_size_ = 16;
+	const int community_deck_size_ = 16;
 
 	// Locales
 	nlohmann::json game_locales_;

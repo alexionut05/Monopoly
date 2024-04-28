@@ -9,11 +9,6 @@ Railroad::Railroad()
 Railroad::~Railroad() {}
 
 // Getters
-int Railroad::GetTileCost() const
-{
-	return tile_cost_;
-}
-
 int Railroad::GetTileLevel() const
 {
 	return tile_level_;

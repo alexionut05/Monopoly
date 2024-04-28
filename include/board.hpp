@@ -36,11 +36,17 @@ public:
 	void InitTax(const nlohmann::json &j, const size_t i);
 	void InitUtility(const nlohmann::json &j, const size_t i);
 
+	// Getters
+	std::unique_ptr<Tile>& GetTileAt(const size_t i);
+	int GetBoardSize() const;
+	int GetBailValue() const;
+
 	// Operator Overloads
 	friend std::ostream& operator<<(std::ostream &os, const Board &board);
 
 private:
 	std::array<std::unique_ptr<Tile>, 40> tiles_;
+	const int bail_value_ = 50;
 };
 
 #endif // "BOARD_HPP"

@@ -11,7 +11,6 @@ public:
 	~Railroad();
 
 	// Getters
-	int GetTileCost() const;
 	int GetTileLevel() const;
 	std::array<int, 4> GetRent() const;
 
@@ -24,7 +23,6 @@ public:
 	void Print(std::ostream &os) const;
 
 private:
-	int tile_cost_;
 	int tile_level_;
 	std::array<int, 4> rent_;
 };

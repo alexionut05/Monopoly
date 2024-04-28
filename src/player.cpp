@@ -12,6 +12,7 @@ Player::Player(const std::string& name)
 	get_out_of_jail_cards_count_ = 0;
 	double_count_ = 0;
 	is_active_ = true;
+	is_in_jail_ = false;
 } 
 
 Player::~Player() {};
@@ -20,6 +21,11 @@ Player::~Player() {};
 bool Player::IsActive() const
 {
 	return is_active_;
+}
+
+bool Player::IsInJail() const
+{
+	return is_in_jail_;
 }
 
 std::string Player::GetName() const
@@ -58,6 +64,11 @@ void Player::SetActive(bool is_active)
 	is_active_ = is_active;
 }
 
+void Player::SetInJail(bool is_in_jail)
+{
+	is_in_jail_ = is_in_jail;
+}
+
 void Player::SetName(const std::string& name)
 {
 	name_ = name;
@@ -89,4 +100,38 @@ void Player::SetGetOutOfJailCardsCount(int get_out_of_jail_cards_count)
 void Player::SetDoubleCount(int double_count)
 {
 	double_count_ = double_count;
+}
+
+// Methods
+void Player::AddBalance(int amount)
+{
+	balance_ += amount;
+}
+
+void Player::AddJailTurns(int amount)
+{
+	jail_turns_ += amount;
+}
+
+void Player::AddGetOutOfJailCard(int amount)
+{
+	get_out_of_jail_cards_count_ += amount;
+}
+
+void Player::AddDoubleCount(int amount)
+{
+	double_count_ += amount;
+}
+
+bool Player::IsDoomedInJail(const int bail) const
+{
+	if (jail_turns_ > 3 && balance_ < bail && get_out_of_jail_cards_count_ == 0) {
+		return true;
+	}
+	return false;
+}
+
+bool Player::HasGetOutOfJailCard() const
+{
+	return get_out_of_jail_cards_count_ > 0;
 }

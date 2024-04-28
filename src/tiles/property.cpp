@@ -10,11 +10,6 @@ Property::Property()
 Property::~Property() {}
 
 // Getters
-int Property::GetTileCost() const
-{
-	return tile_cost_;
-}
-
 int Property::GetBuildingCost() const
 {
 	return building_cost_;

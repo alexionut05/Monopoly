@@ -10,11 +10,6 @@ Utility::Utility()
 Utility::~Utility() {}
 
 // Getters
-int Utility::GetTileCost() const
-{
-	return tile_cost_;
-}
-
 int Utility::GetTileLevel() const
 {
 	return tile_level_;

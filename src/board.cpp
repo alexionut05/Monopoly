@@ -124,6 +124,22 @@ void Board::InitUtility(const nlohmann::json &j, const size_t i)
 	tiles_[i] = std::make_unique<Utility>(tile);
 }
 
+// Getters
+std::unique_ptr<Tile>& Board::GetTileAt(const size_t i)
+{
+	return tiles_[i];
+}
+
+int Board::GetBoardSize() const
+{
+	return tiles_.size();
+}
+
+int Board::GetBailValue() const
+{
+	return bail_value_;
+}
+
 // Operator Overloads
 std::ostream& operator<<(std::ostream &os, const Board &board)
 {
@@ -133,7 +149,7 @@ std::ostream& operator<<(std::ostream &os, const Board &board)
 		tile->Print(os);
 		if (tile->GetPlayersHere().size() > 0) {
 			os << termcolor::italic << termcolor::grey;
-			os << "   Here: ";
+			os << "        ^ Here: ";
 			for (const auto &player : tile->GetPlayersHere()) {
 				os << player << " ";
 			}

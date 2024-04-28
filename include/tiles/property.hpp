@@ -39,7 +39,6 @@ public:
 	~Property();
 
 	// Getters
-	int GetTileCost() const;
 	int GetBuildingCost() const;
 	int GetTileLevel() const;
 	std::string GetColour() const;
@@ -58,7 +57,6 @@ public:
 	void Print(std::ostream &os) const;
 	
 private:
-	int tile_cost_;
 	int building_cost_;
 	int tile_level_;
 	std::string colour_;
