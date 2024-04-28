@@ -1,8 +1,8 @@
 #include "tiles/jail.hpp"
 
 // Constructor and Destructor
-Jail::Jail(const int jail_fine)
-	: Tile(0, "Jail", "Bank"), jail_fine_(jail_fine) {}
+Jail::Jail(const std::string &name, const std::string &owner, const int jail_fine)
+	: Tile(0, name, owner), jail_fine_(jail_fine) {}
 
 Jail::~Jail() {}
 

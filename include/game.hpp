@@ -10,13 +10,16 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include "json.hpp"
-#include "termcolor.hpp"
+
+#include <nlohmann/json.hpp>
+#include <termcolor/termcolor.hpp>
 
 class Game {
 public:
 	// Constructor and Destructor
-	Game();
+	Game(const std::string &language, const int dice_min, const int dice_max, const int player_start_balance, 
+		const size_t min_players, const size_t max_players, const size_t min_name_length, const size_t max_name_length, 
+		const int chance_deck_size, const int community_deck_size, const int bail_value, const std::string &bank_name);
 	~Game();
 
 	// Game methods
@@ -61,18 +64,16 @@ private:
 	Dice dice_;
 	std::vector<Player> players_;
 
-	std::string language_;
-	const size_t min_players_ = 2;
-	const size_t max_players_ = 8;
-	const size_t min_name_length_ = 3;
-	const size_t max_name_length_ = 10;
-	const int chance_deck_size_ = 16;
-	const int community_deck_size_ = 16;
+	const std::string language_;
+	const int player_start_balance_;
+	const size_t min_players_;
+	const size_t max_players_;
+	const size_t min_name_length_;
+	const size_t max_name_length_;
 
 	// Locales
 	nlohmann::json game_locales_;
 	nlohmann::json player_locales_;
-
 };
 
 #endif // "GAME_HPP"

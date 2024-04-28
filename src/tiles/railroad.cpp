@@ -1,8 +1,8 @@
 #include "tiles/railroad.hpp"
 
 // Constructor and Destructor
-Railroad::Railroad(const int tile_cost, const std::string &name, const std::string &owner, const int tile_level, const std::array<int, 4> rent)
-	: Tile(tile_cost, name, owner), tile_level_(tile_level), rent_(rent) {}
+Railroad::Railroad(const int tile_cost, const std::string &name, const std::string &owner, const std::array<int, 4> rent)
+	: Tile(tile_cost, name, owner), tile_level_(0), rent_(rent) {}
 
 Railroad::~Railroad() {}
 

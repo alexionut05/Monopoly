@@ -1,21 +1,20 @@
 #include "game.hpp"
 
 // Constructor and Destructor
-Game::Game() {};
-Game::~Game() {};
+Game::Game(const std::string &language, const int dice_min, const int dice_max, const int player_start_balance, 
+	const size_t min_players, const size_t max_players, const size_t min_name_length, const size_t max_name_length, 
+	const int chance_deck_size, const int community_deck_size, const int bail_value, const std::string &bank_name)
+	: board_(bail_value, bank_name), chance_deck_(language, "chance", chance_deck_size),
+	community_deck_(language, "community_chest", community_deck_size), dice_(dice_min, dice_max), players_({}),
+	language_(language), player_start_balance_(player_start_balance),
+	min_players_(min_players), max_players_(max_players), min_name_length_(min_name_length), max_name_length_(max_name_length) {}
+
+Game::~Game() {}
 
 // Game methods
 void Game::InitGame()
 {
 	ClearScreen();
-	// Choose language
-	do {
-		std::cout << "Choose language (en): ";
-		std::cin >> language_;
-		if (language_ != "en") {
-			std::cout << "Language not supported yet." << std::endl;
-		}
-	} while (language_ != "en");
 
 	// Init board
 	board_.InitBoard(language_);
@@ -28,8 +27,6 @@ void Game::InitGame()
 	std::cout << message << std::endl;
 
 	// Init decks
-	chance_deck_ = Deck(language_, "chance", chance_deck_size_);
-	community_deck_ = Deck(language_, "community_chest", community_deck_size_);
 	chance_deck_.InitDeck();
 	community_deck_.InitDeck();
 
@@ -125,15 +122,6 @@ void Game::InitLocales()
 	}
 	player_locales_ = nlohmann::json::parse(file);
 	file.close();
-
-	// Load prompt locales
-	// file.open("../locales/" + language_ + "/prompts.json");
-	// if (!file.is_open()) {
-	// 	std::cerr << "Error: Could not open prompt locales file." << std::endl;
-	// 	exit(1);
-	// }
-	// prompt_locales_ = nlohmann::json::parse(file);
-	// file.close();	
 }
 
 // Player methods
@@ -167,7 +155,7 @@ void Game::InitPlayers()
 			std::cin >> name;
 		} while (IsPlayerNameValid(name) == false);
 
-		AddPlayer(Player(name));
+		AddPlayer(Player(name, player_start_balance_));
 		MovePlayerAt(i, 0);
 	}
 }
@@ -190,7 +178,9 @@ bool Game::IsPlayerNameValid(const std::string &name) const
 		std::cout << message << std::endl << std::endl;
 		return false;
 	}
-	if (name_copy == "BANK") {
+	std::string bank_name = board_.GetBankName();
+	std::transform(bank_name.begin(), bank_name.end(), bank_name.begin(), ::toupper);
+	if (name_copy == bank_name) {
 		std::cout << player_locales_["bank_name"].get<std::string>() << std::endl << std::endl;
 		return false;
 	}
@@ -233,7 +223,9 @@ void Game::MovePlayerBy(const int player_index, const int steps)
 	int new_position = players_[player_index].GetPosition() + steps;
 	if (new_position >= board_.GetBoardSize()) {
 		new_position -= board_.GetBoardSize();
-		players_[player_index].AddBalance(200);
+		int pass_go = dynamic_cast<Go*>(board_.GetTileAt(0).get())->GetPassGoAmount();
+		players_[player_index].AddBalance(pass_go);
+	
 	}
 	MovePlayerAt(player_index, new_position);
 }

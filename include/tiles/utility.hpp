@@ -6,7 +6,7 @@
 class Utility : public Tile {
 public:
 	// Constructor and Destructor
-	Utility(const int tile_cost, const std::string &name, const std::string &owner, const int tile_level, const std::array<int, 2> dice_multiplier);
+	Utility(const int tile_cost, const std::string &name, const std::string &owner, const std::array<int, 2> dice_multiplier);
 	~Utility();
 
 	// Getters

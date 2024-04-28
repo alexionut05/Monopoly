@@ -1,0 +1,13 @@
+{
+	"dice_min": 1,
+	"dice_max": 6,
+	"player_start_balance": 1500,
+	"min_players": 2,
+	"max_players": 8,
+	"min_name_length": 3,
+	"max_name_length": 10,
+	"chance_deck_size": 16,
+	"community_deck_size": 16,
+	"bail_value": 50,
+	"bank_name": "Bank"
+}

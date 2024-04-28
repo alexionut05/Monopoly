@@ -1,8 +1,8 @@
 #include "tiles/utility.hpp"
 
 // Constructor and Destructor
-Utility::Utility(const int tile_cost, const std::string &name, const std::string &owner, const int tile_level, const std::array<int, 2> dice_multiplier)
-	: Tile(tile_cost, name, owner), tile_level_(tile_level), dice_multiplier_(dice_multiplier) {}
+Utility::Utility(const int tile_cost, const std::string &name, const std::string &owner, const std::array<int, 2> dice_multiplier)
+	: Tile(tile_cost, name, owner), tile_level_(0), dice_multiplier_(dice_multiplier) {}
 
 Utility::~Utility() {}
 

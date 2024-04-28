@@ -150,17 +150,12 @@ set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
 
 ###############################################################################
 
-# use SYSTEM so cppcheck/clang-tidy does not report warnings from these directories
-add_library(nlohmann_json INTERFACE)
-add_library(termcolor INTERFACE)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE include)
+# use SYSTEM so cppcheck/clang-tidy does not report warnings from these directories\
+target_include_directories(${PROJECT_NAME} PRIVATE include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
-target_include_directories(nlohmann_json INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/ext)
-target_include_directories(termcolor INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/ext)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/include)
 # target_link_directories(${PROJECT_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
-target_link_libraries(${PROJECT_NAME} PRIVATE termcolor)
 
 ###############################################################################
 

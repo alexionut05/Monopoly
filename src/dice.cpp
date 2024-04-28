@@ -1,7 +1,8 @@
 #include "dice.hpp"
 
 // Constructor and Destructor
-Dice::Dice() {}
+Dice::Dice(const int min_dice, const int max_dice)
+	: min_dice_(min_dice), max_dice_(max_dice) {}
 
 Dice::~Dice() {}
 

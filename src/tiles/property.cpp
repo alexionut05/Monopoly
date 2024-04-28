@@ -2,8 +2,8 @@
 
 // Constructor and Destructor
 Property::Property(const int tile_cost, const std::string &name, const std::string &owner,
-	const int building_cost, const int tile_level, const std::string &colour, const std::string &colour_type, const std::array<int, 7> rent)
-	: Tile(tile_cost, name, owner), building_cost_(building_cost), tile_level_(tile_level), colour_(colour), colour_type_(colour_type), rent_(rent) {}
+	const int building_cost, const std::string &colour, const std::string &colour_type, const std::array<int, 7> rent)
+	: Tile(tile_cost, name, owner), building_cost_(building_cost), tile_level_(0), colour_(colour), colour_type_(colour_type), rent_(rent) {}
 	
 Property::~Property() {}
 

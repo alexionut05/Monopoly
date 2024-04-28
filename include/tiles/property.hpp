@@ -34,7 +34,7 @@ class Property : public Tile {
 public:
 	// Constructor and Destructor
 	Property(const int tile_cost,  const std::string &name, const std::string &owner,
-		const int building_cost, const int tile_level, const std::string &colour, const std::string &colour_type, const std::array<int, 7> rent);
+		const int building_cost, const std::string &colour, const std::string &colour_type, const std::array<int, 7> rent);
 	~Property();
 
 	// Getters
@@ -48,11 +48,11 @@ public:
 	void Print(std::ostream &os) const;
 	
 private:
-	int building_cost_;
+	const int building_cost_;
 	int tile_level_;
-	std::string colour_;
-	std::string colour_type_;
-	std::array<int, 7> rent_;
+	const std::string colour_;
+	const std::string colour_type_;
+	const std::array<int, 7> rent_;
 	// 0 = single tile owned
 	// 1 = all colour tiles owned
 	// 2 = single tile with 1 house

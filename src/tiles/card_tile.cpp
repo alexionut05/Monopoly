@@ -1,7 +1,7 @@
 #include "tiles/card_tile.hpp"
 
 // Constructor and Destructor
-CardTile::CardTile(std::string &name, std::string &owner)
+CardTile::CardTile(const std::string &name, const std::string &owner)
 	: Tile(0, name, owner) {}
 
 CardTile::~CardTile() {}

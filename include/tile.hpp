@@ -7,7 +7,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "termcolor.hpp"
+
+#include <termcolor/termcolor.hpp>
 
 class Tile {
 public:

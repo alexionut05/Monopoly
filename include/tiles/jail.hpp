@@ -6,7 +6,7 @@
 class Jail : public Tile {
 public:
 	// Constructor and Destructor
-	Jail(const int jail_fine);
+	Jail(const std::string &name, const std::string &owner, const int jail_fine);
 	~Jail();
 
 	// Getters

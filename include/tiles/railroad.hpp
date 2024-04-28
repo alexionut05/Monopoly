@@ -6,7 +6,7 @@
 class Railroad : public Tile {
 public:
 	// Constructor and Destructor
-	Railroad(const int tile_cost, const std::string &name, const std::string &owner, const int tile_level, const std::array<int, 4> rent);
+	Railroad(const int tile_cost, const std::string &name, const std::string &owner, const std::array<int, 4> rent);
 	~Railroad();
 
 	// Getters
@@ -18,7 +18,7 @@ public:
 
 private:
 	int tile_level_;
-	std::array<int, 4> rent_;
+	const std::array<int, 4> rent_;
 };
 
 #endif // "RAIlROAD_HPP"

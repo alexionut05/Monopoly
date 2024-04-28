@@ -6,7 +6,7 @@
 class Card {
 public:
 	// Constructor and Destructor
-	Card();
+	Card(const std::string &description, const std::string &type, const std::pair<int, int> &values);
 	~Card();
 
 	// Getters
@@ -14,15 +14,13 @@ public:
 	std::string GetType() const;
 	std::pair<int, int> GetValue() const;
 
-	// Setters
-	void SetDescription(const std::string &description);
-	void SetType(const std::string &type);
-	void SetValues(const std::pair<int, int> &values);
+	// Operator Overloads
+	Card &operator=(const Card &other);
 
 private:
-	std::string description_;
-	std::string type_;
-	std::pair<int, int> values_;
+	const std::string description_;
+	const std::string type_;
+	const std::pair<int, int> values_;
 };
 
 #endif // "CARD_HPP"

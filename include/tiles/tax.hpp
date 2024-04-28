@@ -6,7 +6,7 @@
 class Tax : public Tile {
 public:
 	// Constructor and Destructor
-	Tax(const int tile_cost, const std::string &name, const std::string &owner, const int tax_amount);
+	Tax(const std::string &name, const std::string &owner, const int tax_amount);
 	~Tax();
 
 	// Getters

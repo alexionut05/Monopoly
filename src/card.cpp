@@ -1,7 +1,8 @@
 #include "card.hpp"
 
 // Constructor and Destructor
-Card::Card() {}
+Card::Card(const std::string &description, const std::string &type, const std::pair<int, int> &values)
+	: description_(description), type_(type), values_(values) {}
 
 Card::~Card() {}
 
@@ -21,18 +22,14 @@ std::pair<int, int> Card::GetValue() const
 	return values_;
 }
 
-// Setters
-void Card::SetDescription(const std::string &description)
+// Operator Overloads
+Card &Card::operator=(const Card &other)
 {
-	description_ = description;
-}
+	if (this != &other) {
+		const_cast<std::string&>(description_) = other.description_;
+		const_cast<std::string&>(type_) = other.type_;
+		const_cast<std::pair<int, int>&>(values_) = other.values_;
+	}
 
-void Card::SetType(const std::string &type)
-{
-	type_ = type;
-}
-
-void Card::SetValues(const std::pair<int, int> &values)
-{
-	values_ = values;
+	return *this;
 }

@@ -6,7 +6,7 @@
 class CardTile : public Tile {
 public:
 	// Constructor and Destructor
-	CardTile(std::string &name, std::string &owner);
+	CardTile(const std::string &name, const std::string &owner);
 	~CardTile();
 
 	// Print

@@ -1,8 +1,8 @@
 #include "tiles/tax.hpp"
 
 // Constructor and Destructor
-Tax::Tax(const int tile_cost, const std::string &name, const std::string &owner, const int tax_amount)
-	: Tile(tile_cost, name, owner), tax_amount_(tax_amount) {}
+Tax::Tax(const std::string &name, const std::string &owner, const int tax_amount)
+	: Tile(0, name, owner), tax_amount_(tax_amount) {}
 
 Tax::~Tax() {}
 
