@@ -28,6 +28,8 @@ env:
   EXT_DIR: "ext"
   BIN_DIR: "bin"
   GEN_DIR: "generated"
+  INCLUDE_DIR: "include"
+  SRC_DIR: "src"
 
 defaults:
   run:
@@ -63,7 +65,8 @@ jobs:
                    --project="${BUILD_DIR}"/compile_commands.json \
                    -i"${BUILD_DIR}" --suppress='*:"${BUILD_DIR}"/*' \
                    -i"${EXT_DIR}" --suppress='*:"${EXT_DIR}"/*' \
-                   -i"${GEN_DIR}" --suppress='*:"${GEN_DIR}"/*' \
+                    -i"${INCLUDE_DIR}" --suppress='*:"${INCLUDE_DIR}"/*' \
+                    -i"${SRC_DIR}" --suppress='*:"${SRC_DIR}"/*' \
                    --suppress=missingIncludeSystem \
                    --suppress=unmatchedSuppression \
                    --suppress=useStlAlgorithm \
@@ -73,16 +76,27 @@ jobs:
     name: "Clang-Tidy"
     runs-on: ubuntu-22.04
     env:
-      CC: clang-14
-      CXX: clang++-14
+      CLANG_VER: 17
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Setup compiler env vars
+        run: |
+          echo "CC=clang-${CLANG_VER}" >> $GITHUB_ENV
+          echo "CXX=clang++-${CLANG_VER}" >> $GITHUB_ENV
+
+      # Also see https://github.com/actions/runner-images/discussions/9446#discussioncomment-8668538
+      - name: Install Clang ${{ env.CLANG_VER }}
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x ./llvm.sh
+          sudo ./llvm.sh ${CLANG_VER}
+
       - name: Install clang-tidy
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends clang-tidy
+          sudo apt-get install --no-install-recommends clang-tidy-${{ env.CLANG_VER }} libc++-${{ env.CLANG_VER }}-dev libc++abi-${{ env.CLANG_VER }}-dev
 
       - name: Configure CMake
         uses: ./.github/actions/configure-cmake
@@ -99,7 +113,7 @@ jobs:
           cat "${BUILD_DIR}"/compile_commands.json |
             jq -r '.[] | .file' |                    # select source file paths from CMake project; -r to strip quotes
             grep -v "/${BUILD_DIR}/_deps/" |         # ignore external dependencies
-            xargs clang-tidy -p "${BUILD_DIR}"
+            xargs clang-tidy-${{ env.CLANG_VER }} -p "${BUILD_DIR}"
 
 
   build:
@@ -118,10 +132,12 @@ jobs:
       matrix:
         include:
           - os: ubuntu-22.04
-            c: clang-14
-            cxx: clang++-14
-            name: "MSan: Ubuntu 22.04 Clang 14"
-            # cmake_flags:
+            c: clang-17
+            cxx: clang++-17
+            clang_ver: "17"
+            clang_ver_full: "17.0.6"
+            name: "MSan: Ubuntu 22.04 Clang 17"
+            cmake_flags: "-DUSE_MSAN=ON"
             cmake_generator: Ninja
             # This env runs memory sanitizers
             runs_msan: true
@@ -130,7 +146,7 @@ jobs:
             c: gcc-12
             cxx: g++-12
             name: "ASan: Ubuntu 22.04 GCC 12"
-            # cmake_flags:
+            cmake_flags: "-DUSE_ASAN=ON"
             cmake_generator: Ninja
             # This env runs address sanitizers
             runs_asan: true
@@ -148,7 +164,7 @@ jobs:
             c: clang
             cxx: clang++
             name: "ASan: macOS 12 Apple Clang 14"
-            # cmake_flags:
+            cmake_flags: "-DUSE_ASAN=ON"
             # cmake_generator:
             # This env runs address sanitizers
             runs_asan: true
@@ -164,7 +180,7 @@ jobs:
             c: cl
             cxx: cl
             name: "ASan: Windows 2022 MSVC 19.38"
-            # cmake_flags:
+            cmake_flags: "-DUSE_ASAN=ON"
             # cmake_generator: Ninja
             # This env runs address sanitizers
             runs_asan: true
@@ -202,12 +218,22 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ninja-build
+          # https://github.com/llvm/llvm-project/issues/78354
+          sudo sysctl vm.mmap_rnd_bits=28
 
-      - name: Install libc++ (Linux Clang 14)
+      # Also see https://github.com/actions/runner-images/discussions/9446#discussioncomment-8668538
+      - name: Install Clang ${{ matrix.clang_ver }}
+        if: runner.os == 'Linux' && matrix.runs_msan == true
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x ./llvm.sh
+          sudo ./llvm.sh ${{ matrix.clang_ver }}
+
+      - name: Install libc++ (Linux Clang ${{ matrix.clang_ver }})
         if: runner.os == 'Linux' && matrix.runs_msan == true
         run: |
           # sudo apt-get update
-          sudo apt-get install --no-install-recommends libc++-14-dev libc++abi-14-dev
+          sudo apt-get install --no-install-recommends libc++-${{ matrix.clang_ver }}-dev libc++abi-${{ matrix.clang_ver }}-dev
 
       - name: Install ninja (Windows)
         if: runner.os == 'Windows'
@@ -226,7 +252,7 @@ jobs:
         id: cache-tools
         with:
           path: tools
-          key: tools-clang-stdlib-msan
+          key: tools-clang-${{ matrix.clang_ver }}-stdlib-msan
 
       - name: Configure CMake
         uses: ./.github/actions/configure-cmake
@@ -321,19 +347,21 @@ jobs:
         run: |
           mkdir -p tools
           cd tools
-          git clone --depth=1 --branch=llvmorg-14.0.6 https://github.com/llvm/llvm-project
+          git clone --depth=1 --branch=llvmorg-${{ matrix.clang_ver_full }} https://github.com/llvm/llvm-project
           cd llvm-project
-          mkdir build; cd build
+          # mkdir build; cd build
           sudo ln -s -f /usr/bin/$CC /usr/bin/clang
           sudo ln -s -f /usr/bin/$CXX /usr/bin/clang++
-          cmake -GNinja ../llvm \
+          # https://github.com/llvm/llvm-project/issues/78354
+          sudo sysctl vm.mmap_rnd_bits=28
+          cmake -G Ninja -S runtimes -B build \
             -DCMAKE_BUILD_TYPE=Release \
-            -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
+            -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
             -DCMAKE_C_COMPILER=clang \
             -DCMAKE_CXX_COMPILER=clang++ \
             -DLLVM_USE_SANITIZER=MemoryWithOrigins \
             -DCMAKE_BUILD_WITH_INSTALL_RPATH=true
-          cmake --build . -j6 -- cxx cxxabi
+          cmake --build build -j6 -- cxx cxxabi
 
       - name: Sanitizers
         # run one sanitizer for each env to avoid building extra binaries on one env
@@ -379,10 +407,7 @@ jobs:
           filename: ${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}.zip
 
       - name: Release
-        # FIXME: TEMP workaround for 2nd semester of 2023-2024
-        # For now, this replaces the unmaintained https://github.com/softprops/action-gh-release
-        # due to Node 16 deprecation: https://github.com/softprops/action-gh-release/issues/404
-        uses: timheuer/action-gh-release@master
+        uses: softprops/action-gh-release@master
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
