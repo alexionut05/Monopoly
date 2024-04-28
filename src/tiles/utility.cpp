@@ -1,7 +1,10 @@
 #include "utility.hpp"
 
 // Constructor and Destructor
-Utility::Utility() {}
+Utility::Utility()
+{
+	owner_ = "Bank";
+}
 
 Utility::~Utility() {}
 

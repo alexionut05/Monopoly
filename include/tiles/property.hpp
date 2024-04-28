@@ -26,6 +26,7 @@ private:
 	int tile_cost_;
 	int building_cost_;
 	int building_level_;
+	std::string colour_;
 	std::array<int, 7> rent_;
 	// 0 = single tile owned
 	// 1 = all colour tiles owned

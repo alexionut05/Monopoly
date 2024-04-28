@@ -11,16 +11,6 @@ std::string Tile::GetName() const
 	return name_;
 }
 
-std::string Tile::GetType() const
-{
-	return type_;
-}
-
-std::string Tile::GetColour() const
-{
-	return colour_;
-}
-
 std::string Tile::GetOwner() const
 {
 	return owner_;
@@ -30,16 +20,6 @@ std::string Tile::GetOwner() const
 void Tile::SetName(const std::string name)
 {
 	name_ = name;
-}
-
-void Tile::SetType(const std::string type)
-{
-	type_ = type;
-}
-
-void Tile::SetColour(const std::string colour)
-{
-	colour_ = colour;
 }
 
 void Tile::SetOwner(const std::string owner)

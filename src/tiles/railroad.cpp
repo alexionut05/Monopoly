@@ -1,7 +1,10 @@
 #include "railroad.hpp"
 
 // Constructor and Destructor
-Railroad::Railroad() {}
+Railroad::Railroad()
+{
+	owner_ = "Bank";
+}
 
 Railroad::~Railroad() {}
 
