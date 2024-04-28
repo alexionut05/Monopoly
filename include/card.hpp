@@ -12,16 +12,17 @@ public:
 	// Getters
 	std::string GetDescription() const;
 	std::string GetType() const;
-	int GetValue() const;
+	std::pair<int, int> GetValue() const;
 
 	// Setters
 	void SetDescription(const std::string &description);
 	void SetType(const std::string &type);
-	void SetValue(const int value);
+	void SetValues(const std::pair<int, int> &values);
+
 private:
 	std::string description_;
 	std::string type_;
-	int value_;
+	std::pair<int, int> values_;
 };
 
 #endif // "CARD_HPP"

@@ -16,9 +16,9 @@ std::string Card::GetType() const
 	return type_;
 }
 
-int Card::GetValue() const
+std::pair<int, int> Card::GetValue() const
 {
-	return value_;
+	return values_;
 }
 
 // Setters
@@ -32,7 +32,7 @@ void Card::SetType(const std::string &type)
 	type_ = type;
 }
 
-void Card::SetValue(const int value)
+void Card::SetValues(const std::pair<int, int> &values)
 {
-	value_ = value;
+	values_ = values;
 }
