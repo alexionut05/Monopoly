@@ -10,6 +10,7 @@ Voi inlatura apelul de sistem din game.cpp inainte de primul release, dar pe mom
 Multumesc pt feedback in avans si pt intelegerea cu deadline-ul!
 
 Estimare terminare tema 1: 30 aprilie - 2 mai
+
 Estimare terminare tema 2: 3-5 mai
 
 NU E FINAL!
