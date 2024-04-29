@@ -20,6 +20,11 @@ std::string Tile::GetOwner() const
 	return owner_;
 }
 
+void Tile::SetOwner(const std::string owner)
+{
+	owner_ = owner;
+}
+
 std::vector<std::string> Tile::GetPlayersHere() const
 {
 	return players_here_;
@@ -38,4 +43,11 @@ void Tile::RemovePlayerHere(const std::string player_name)
 void Tile::Print(std::ostream &os) const
 {
 	os << " Wtf? This isn't supposed to happen!" << std::endl;
+}
+
+// pt tema 1
+std::ostream &operator<<(std::ostream &out, const Tile &tile)
+{
+	tile.Print(out);
+	return out;
 }

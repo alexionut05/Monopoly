@@ -41,6 +41,8 @@ public:
 	std::string GetColourType() const;
 	std::array<int, 7> GetRent() const;
 
+	void AddBuilding(const int amount);
+
 	void Print(std::ostream &os) const;
 	void SetPrintColour(std::ostream &os) const;
 

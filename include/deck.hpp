@@ -3,6 +3,7 @@
 
 #include "card.hpp"
 #include <fstream>
+#include <iostream>
 #include <random>
 #include <vector>
 
@@ -15,6 +16,8 @@ public:
 	void InitDeck();
 	void ShuffleDeck();
 	Card DrawCard();
+
+	friend std::ostream &operator<<(std::ostream &out, const Deck &deck);
 
 private:
 	std::vector<Card> cards_;

@@ -16,7 +16,7 @@
 
 class Game {
 public:
-	// Constructor and Destructor
+	// Constructor
 	Game(const std::string &language, const int dice_min, const int dice_max, const int player_start_balance, 
 		const size_t min_players, const size_t max_players, const size_t min_name_length, const size_t max_name_length, 
 		const int chance_deck_size, const int community_deck_size, const int bail_value, const std::string &bank_name);
@@ -24,8 +24,9 @@ public:
 	// Game methods
 	void InitGame();
 	void RunGame();
-	void EndGame(const int winner_index);
-	void PlayTurn(const int player_index);
+	void EndGame(const Player &winner);
+	void PlayTurn(Player &player);
+	void PlayTurnInJail(Player &player);
 
 	// Locales methods
 	void InitLocales();
@@ -34,27 +35,46 @@ public:
 	void InitPlayers();
 	bool IsPlayerNameValid(const std::string &name) const;
 	void AddPlayer(const Player &player);
-	void RemovePlayer(const int player_index);
+	void RemovePlayer(Player &player);
+	bool PromptPlayerReady(const Player &player);
 
 	// Board methods
-	void MovePlayerAt(const int player_index, const int position);
-	void MovePlayerBy(const int player_index, const int steps);
+	void MovePlayerAt(Player &player, const int position);
+	void MovePlayerBy(Player &player, const int steps);
+	bool IsPlayerEnabledTile(Tile *tile) const;
+	bool CanAffordTransaction(const Player &player, const int amount) const;
+	bool IsPlayerOwnedTile(Tile *tile) const;
+	int GetHousesOnTile(Tile *tile) const;
+	int GetHouseCost(Tile *tile) const;
+	void AddHouseToTile(Tile *tile, const int amount);
 
 	// Print methods
 	void PrintBlank();
-	void PrintTurnStartJail(const int player_index);
-	void PrintJailBroke();
-	void PrintOptionInfoTile();
-	void PrintOptionBuyTile();
+	void PrintTurnStart(const Player &player);
+	void PrintTurnStartJail(const Player &player);
+	void PrintOptionIllegal();
+	void PrintOptionRollDice();
+	void PrintOptionQuitGame();
+	void PrintOptionInfo();
+	void PrintOptionBuyTile(const Player &player);
 	void PrintOptionSellTile();
 	void PrintOptionBuyHouse();
 	void PrintOptionSellHouse();
-	void PrintOptionUseGetOutOfJailCard(const int player_index);
-	void PrintOptionTryDouble();
-	void PrintOptionPayFine();
+
+	// Action methods
+	std::pair<int, int> ActionRollDice();
+	bool ActionQuitGame(Player &player);
+	void ActionInfo();
+	void ActionBuyTile(Player &player);
+	void ActionSellTile(Player &player);
+	void ActionBuyHouse(Player &player);
+	void ActionSellHouse(Player &player);
 
 	// Clear screen
 	void ClearScreen();
+
+	// Operator Overloads
+	friend std::ostream &operator<<(std::ostream &os, const Game &game);
 
 private:
 	Board board_;

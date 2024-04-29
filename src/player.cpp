@@ -43,6 +43,20 @@ void Player::SetPosition(const int position)
 	position_ = position;
 }
 
+void Player::GoToJail()
+{
+	is_in_jail_ = true;
+	position_ = 10;
+	jail_turns_ = 0;
+	double_count_ = 0;
+}
+
+void Player::GetOutOfJail()
+{
+	is_in_jail_ = false;
+	jail_turns_ = 0;
+}
+
 void Player::AddBalance(int amount)
 {
 	balance_ += amount;
@@ -69,4 +83,16 @@ bool Player::IsDoomedInJail(const int bail) const
 		return true;
 	}
 	return false;
+}
+
+// pt tema 1
+std::ostream& operator<<(std::ostream& out, const Player& player)
+{
+	out << "Player: " << player.name_ << std::endl;
+	out << "Balance: " << player.balance_ << std::endl;
+	out << "Position: " << player.position_ << std::endl;
+	out << "Jail turns: " << player.jail_turns_ << std::endl;
+	out << "Get out of jail cards: " << player.get_out_of_jail_cards_count_ << std::endl;
+	out << "Double count: " << player.double_count_ << std::endl;
+	return out;
 }

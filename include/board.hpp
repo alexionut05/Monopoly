@@ -13,27 +13,29 @@
 #include "tile.hpp"
 #include <array>
 #include <fstream>
+#include <iostream>
 #include <memory>
 
 #include <nlohmann/json.hpp>
 
 class Board {
 public:
-	Board(const int bail_value, const std::string &bank_name);
+	Board(const int bail_value, const std::string &bank_name, const nlohmann::json &tiles_data);
 
 	// Board methods
-	void InitBoard(const std::string &language);
+	void InitBoard();
 
 	// Tile methods
-	void InitCardTile(const nlohmann::json &j, const size_t i);
-	void InitFreeParking(const nlohmann::json &j, const size_t i);
-	void InitGoToJail(const nlohmann::json &j, const size_t i);
-	void InitGo(const nlohmann::json &j, const size_t i);
-	void InitJail(const nlohmann::json &j, const size_t i);
-	void InitProperty(const nlohmann::json &j, const size_t i);
-	void InitRailroad(const nlohmann::json &j, const size_t i);
-	void InitTax(const nlohmann::json &j, const size_t i);
-	void InitUtility(const nlohmann::json &j, const size_t i);
+	void InitTile(const size_t i);
+	void InitCardTile(const size_t i);
+	void InitFreeParking(const size_t i);
+	void InitGoToJail(const size_t i);
+	void InitGo(const size_t i);
+	void InitJail(const size_t i);
+	void InitProperty(const size_t i);
+	void InitRailroad(const size_t i);
+	void InitTax(const size_t i);
+	void InitUtility(const size_t i);
 
 	// Getters
 	std::unique_ptr<Tile>& GetTileAt(const size_t i);
@@ -48,6 +50,7 @@ private:
 	std::array<std::unique_ptr<Tile>, 40> tiles_;
 	const int bail_value_;
 	const std::string bank_name_;
+	const nlohmann::json tiles_data_;
 };
 
 #endif // "BOARD_HPP"

@@ -11,3 +11,11 @@ std::pair<int, int> Dice::RollDice() const
 
 	return std::make_pair(dist(gen), dist(gen));
 }
+
+// pt tema 1
+std::ostream &operator<<(std::ostream &out, const Dice &dice)
+{
+	out << dice.min_dice_ << " " << dice.max_dice_;
+
+	return out;
+}

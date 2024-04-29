@@ -29,6 +29,11 @@ std::array<int, 7> Property::GetRent() const
 	return rent_;
 }
 
+void Property::AddBuilding(const int amount)
+{
+	tile_level_ += amount;
+}
+
 void Property::Print(std::ostream &os) const
 {
 	os << termcolor::bold;

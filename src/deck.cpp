@@ -3,7 +3,7 @@
 Deck::Deck(const std::string &language, const std::string &deck_type, const int cards_count)
 	: cards_count_(cards_count)
 {
-	std::ifstream file("data/" + language + "/" + deck_type + ".json");
+	std::ifstream file("../locales/" + language + "/" + deck_type + "_card.json");
 	file >> deck_data_;
 	file.close();
 }
@@ -41,4 +41,14 @@ Card Deck::DrawCard()
 	}
 
 	return card;
+}
+
+// pt tema 1
+std::ostream &operator<<(std::ostream &out, const Deck &deck)
+{
+	for (const Card &card : deck.cards_) {
+		out << card << std::endl;
+	}
+
+	return out;
 }

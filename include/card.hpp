@@ -1,6 +1,7 @@
 #ifndef CARD_HPP
 #define CARD_HPP
 
+#include <iostream>
 #include <string>
 
 class Card {
@@ -16,6 +17,7 @@ public:
 
 	void swap(Card &other) noexcept;
 	Card &operator=(const Card &other);
+	friend std::ostream &operator<<(std::ostream &out, const Card &card);
 
 private:
 	const std::string description_;

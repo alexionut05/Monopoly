@@ -37,3 +37,11 @@ Card &Card::operator=(const Card &other)
 
 	return *this;
 }
+
+// pt tema 1
+std::ostream &operator<<(std::ostream &out, const Card &card)
+{
+	out << card.description_ << " " << card.type_ << " " << card.values_.first << " " << card.values_.second;
+
+	return out;
+}

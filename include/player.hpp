@@ -1,6 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include <iostream>
 #include <string>
 
 class Player {
@@ -16,12 +17,16 @@ public:
 	int GetDoubleCount() const;
 
 	void SetPosition(const int position);
+	void GoToJail();
+	void GetOutOfJail();
 
 	void AddBalance(int amount);
 	void AddJailTurns(int amount);
 	void AddGetOutOfJailCard(int amount);
 	void AddDoubleCount(int amount);
 	bool IsDoomedInJail(const int bail) const;
+
+	friend std::ostream& operator<<(std::ostream& out, const Player& player);
 	
 private:
 	bool is_in_jail_;
