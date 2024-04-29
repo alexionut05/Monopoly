@@ -1,18 +1,13 @@
 #include "tiles/jail.hpp"
 
-// Constructor and Destructor
 Jail::Jail(const std::string &name, const std::string &owner, const int jail_fine)
 	: Tile(0, name, owner), jail_fine_(jail_fine) {}
 
-Jail::~Jail() {}
-
-// Getters
 int Jail::GetJailFine() const
 {
 	return jail_fine_;
 }
 
-// Print
 void Jail::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

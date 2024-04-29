@@ -5,11 +5,8 @@
 
 class CardTile : public Tile {
 public:
-	// Constructor and Destructor
 	CardTile(const std::string &name, const std::string &owner);
-	~CardTile();
-
-	// Print
+	
 	void Print(std::ostream &os) const;
 };
 

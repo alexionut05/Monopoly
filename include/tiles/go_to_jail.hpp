@@ -5,11 +5,8 @@
 
 class GoToJail : public Tile {
 public:
-	// Constructor and Destructor
 	GoToJail(const std::string &name, const std::string &owner);
-	~GoToJail();
-
-	// Print
+	
 	void Print(std::ostream &os) const;
 };
 

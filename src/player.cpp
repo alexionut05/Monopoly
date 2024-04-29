@@ -1,12 +1,8 @@
 #include "player.hpp"
 
-// Constructors and Destructor
 Player::Player(const std::string& name, const int balance)
 	: name_(name), balance_(balance), position_(0), jail_turns_(0), get_out_of_jail_cards_count_(0), double_count_(0), is_in_jail_(false) {}
 
-Player::~Player() {};
-
-// Getters
 bool Player::IsInJail() const
 {
 	return is_in_jail_;
@@ -42,13 +38,11 @@ int Player::GetDoubleCount() const
 	return double_count_;
 }
 
-// Setters
 void Player::SetPosition(const int position)
 {
 	position_ = position;
 }
 
-// Methods
 void Player::AddBalance(int amount)
 {
 	balance_ += amount;

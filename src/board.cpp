@@ -1,6 +1,5 @@
 #include "board.hpp"
 
-// Constructor and Destructor
 Board::Board(const int bail_value, const std::string &bank_name)
 	: bail_value_(bail_value), bank_name_(bank_name)
 {
@@ -9,8 +8,6 @@ Board::Board(const int bail_value, const std::string &bank_name)
 	}
 
 }
-
-Board::~Board() {}
 
 // Board methods
 void Board::InitBoard(const std::string &language)

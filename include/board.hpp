@@ -19,9 +19,7 @@
 
 class Board {
 public:
-	// Constructor and Destructor
 	Board(const int bail_value, const std::string &bank_name);
-	~Board();
 
 	// Board methods
 	void InitBoard(const std::string &language);

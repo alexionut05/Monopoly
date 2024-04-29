@@ -9,8 +9,6 @@ Game::Game(const std::string &language, const int dice_min, const int dice_max, 
 	language_(language), player_start_balance_(player_start_balance),
 	min_players_(min_players), max_players_(max_players), min_name_length_(min_name_length), max_name_length_(max_name_length) {}
 
-Game::~Game() {}
-
 // Game methods
 void Game::InitGame()
 {

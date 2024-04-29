@@ -5,11 +5,8 @@
 
 class FreeParking : public Tile {
 public:
-	// Constructor and Destructor
 	FreeParking(const std::string &name, const std::string &owner);
-	~FreeParking();
-
-	// Print
+	
 	void Print(std::ostream &os) const;
 };
 

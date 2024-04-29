@@ -12,21 +12,17 @@
 
 class Tile {
 public:
-	// Constructor and Destructor
 	Tile(const int tile_cost, const std::string name, const std::string owner);
 	virtual ~Tile();
 
-	// Getters
 	int GetTileCost() const;
 	std::string GetName() const;
 	std::string GetOwner() const;
 	std::vector<std::string> GetPlayersHere() const;
 
-	// Methods
 	void AddPlayerHere(const std::string player_name);
 	void RemovePlayerHere(const std::string player_name);
 
-	// Print
 	virtual void Print(std::ostream &os) const = 0;
 
 protected:

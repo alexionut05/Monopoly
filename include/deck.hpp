@@ -10,11 +10,8 @@
 
 class Deck {
 public:
-	// Constructor and Destructor
 	Deck(const std::string &language, const std::string &deck_type, const int cards_count);
-	~Deck();
 
-	// Deck methods
 	void InitDeck();
 	void ShuffleDeck();
 	Card DrawCard();

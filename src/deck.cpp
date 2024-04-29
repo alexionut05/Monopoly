@@ -1,6 +1,5 @@
 #include "deck.hpp"
 
-// Constructors and Destructor
 Deck::Deck(const std::string &language, const std::string &deck_type, const int cards_count)
 	: cards_count_(cards_count)
 {
@@ -9,9 +8,6 @@ Deck::Deck(const std::string &language, const std::string &deck_type, const int 
 	file.close();
 }
 
-Deck::~Deck() {}
-
-// Deck methods
 void Deck::InitDeck()
 {
 	for (int i = 0; i < cards_count_; ++i) {

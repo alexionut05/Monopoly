@@ -32,21 +32,18 @@ enum {
 
 class Property : public Tile {
 public:
-	// Constructor and Destructor
 	Property(const int tile_cost,  const std::string &name, const std::string &owner,
 		const int building_cost, const std::string &colour, const std::string &colour_type, const std::array<int, 7> rent);
-	~Property();
-
-	// Getters
+		
 	int GetBuildingCost() const;
 	int GetTileLevel() const;
 	std::string GetColour() const;
 	std::string GetColourType() const;
 	std::array<int, 7> GetRent() const;
-	
-	// Print
+
 	void Print(std::ostream &os) const;
-	
+	void SetPrintColour(std::ostream &os) const;
+
 private:
 	const int building_cost_;
 	int tile_level_;

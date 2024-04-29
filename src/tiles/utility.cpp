@@ -1,12 +1,8 @@
 #include "tiles/utility.hpp"
 
-// Constructor and Destructor
 Utility::Utility(const int tile_cost, const std::string &name, const std::string &owner, const std::array<int, 2> dice_multiplier)
 	: Tile(tile_cost, name, owner), tile_level_(0), dice_multiplier_(dice_multiplier) {}
 
-Utility::~Utility() {}
-
-// Getters
 int Utility::GetTileLevel() const
 {
 	return tile_level_;
@@ -17,7 +13,6 @@ std::array<int, 2> Utility::GetDiceMultiplier() const
 	return dice_multiplier_;
 }
 
-// Print
 void Utility::Print(std::ostream &os) const
 {
 	os << termcolor::bold << termcolor::on_grey << termcolor::color<255, 255, 255>;

@@ -5,16 +5,15 @@
 
 class Card {
 public:
-	// Constructor and Destructor
+	// Constructors and Destructor (pt tema 1)
 	Card(const std::string &description, const std::string &type, const std::pair<int, int> &values);
+	Card(const Card &other);
 	~Card();
 
-	// Getters
 	std::string GetDescription() const;
 	std::string GetType() const;
 	std::pair<int, int> GetValue() const;
 
-	// Operator Overloads
 	Card &operator=(const Card &other);
 
 private:

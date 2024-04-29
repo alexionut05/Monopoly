@@ -1,18 +1,13 @@
 #include "tiles/tax.hpp"
 
-// Constructor and Destructor
 Tax::Tax(const std::string &name, const std::string &owner, const int tax_amount)
 	: Tile(0, name, owner), tax_amount_(tax_amount) {}
 
-Tax::~Tax() {}
-
-// Getters
 int Tax::GetTaxAmount() const
 {
 	return tax_amount_;
 }
 
-// Print
 void Tax::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

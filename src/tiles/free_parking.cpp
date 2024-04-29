@@ -1,12 +1,8 @@
 #include "tiles/free_parking.hpp"
 
-// Constructor and Destructor
 FreeParking::FreeParking(const std::string &name, const std::string &owner)
 	: Tile(0, name, owner) {}
 
-FreeParking::~FreeParking() {}
-
-// Print
 void FreeParking::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

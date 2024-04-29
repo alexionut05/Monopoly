@@ -1,12 +1,14 @@
 #include "card.hpp"
 
-// Constructor and Destructor
+// Constructor and Destructor (pt tema 1)
 Card::Card(const std::string &description, const std::string &type, const std::pair<int, int> &values)
 	: description_(description), type_(type), values_(values) {}
 
+Card::Card(const Card &other)
+	: description_(other.description_), type_(other.type_), values_(other.values_) {}
+
 Card::~Card() {}
 
-// Getters
 std::string Card::GetDescription() const
 {
 	return description_;
@@ -22,7 +24,6 @@ std::pair<int, int> Card::GetValue() const
 	return values_;
 }
 
-// Operator Overloads
 Card &Card::operator=(const Card &other)
 {
 	if (this != &other) {

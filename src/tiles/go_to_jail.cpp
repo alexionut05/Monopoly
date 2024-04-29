@@ -1,12 +1,8 @@
 #include "tiles/go_to_jail.hpp"
 
-// Constructor and Destructor
 GoToJail::GoToJail(const std::string &name, const std::string &owner)
 	: Tile(0, name, owner) {}
 
-GoToJail::~GoToJail() {}
-
-// Print
 void GoToJail::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

@@ -1,12 +1,8 @@
 #include "tiles/railroad.hpp"
 
-// Constructor and Destructor
 Railroad::Railroad(const int tile_cost, const std::string &name, const std::string &owner, const std::array<int, 4> rent)
 	: Tile(tile_cost, name, owner), tile_level_(0), rent_(rent) {}
 
-Railroad::~Railroad() {}
-
-// Getters
 int Railroad::GetTileLevel() const
 {
 	return tile_level_;
@@ -17,7 +13,6 @@ std::array<int, 4> Railroad::GetRent() const
 	return rent_;
 }
 
-// Print
 void Railroad::Print(std::ostream &os) const
 {
 	os << termcolor::bold << termcolor::on_white << termcolor::color<255, 255, 255>;

@@ -1,18 +1,13 @@
 #include "tiles/go.hpp"
 
-// Constructor and Destructor
 Go::Go(const std::string &name, const std::string &owner, const int pass_go_amount)
 	: Tile(0, name, owner), pass_go_amount_(pass_go_amount) {}
 
-Go::~Go() {}
-
-// Getters
 int Go::GetPassGoAmount() const
 {
 	return pass_go_amount_;
 }
 
-// Print
 void Go::Print(std::ostream &os) const
 {
 	os << termcolor::bold << termcolor::on_color<0, 0, 0>;

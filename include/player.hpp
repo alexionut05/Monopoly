@@ -5,11 +5,8 @@
 
 class Player {
 public:
-	// Constructor and destructor
 	Player(const std::string& name, const int balance);
-	~Player();
 
-	// Getters
 	bool IsInJail() const;
 	std::string GetName() const;
 	int GetBalance() const;
@@ -18,10 +15,8 @@ public:
 	int GetGetOutOfJailCardsCount() const;
 	int GetDoubleCount() const;
 
-	// Setters (needed for easy moving of players)
 	void SetPosition(const int position);
 
-	// Methods
 	void AddBalance(int amount);
 	void AddJailTurns(int amount);
 	void AddGetOutOfJailCard(int amount);

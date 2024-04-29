@@ -5,11 +5,8 @@
 
 class Dice {
 public:
-	// Constructor and Destructor
 	Dice(const int min_dice, const int max_dice);
-	~Dice();
 
-	// Dice methods
 	std::pair<int, int> RollDice() const;
 
 private:
