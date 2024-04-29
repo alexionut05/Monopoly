@@ -1,5 +1,6 @@
 # Monopoly
 NU E FINAL!
+
 Apreciez daca imi dati feedback, insa recomandarea mea ar fi sa nu va luati din timp pt asta inca, pt ca mai am niste functionalitati de adaugat in game.cpp, insa iau o pauza in aceasta seara ca de sambata dimineata de cand m-am apucat nu prea m-am odihnit si pierd randament. Maxim in README.md (am lasat comentarii in paranteze + atribuire in josul paginii), CMakeLists.txt si in cmake.yml daca e pt feedback, am aplicat recomandarile. 
 
 De asemenea am inlaturat destructorii si setterii inutili intr-un mare refactor (cu exceptia card.cpp, pentru a indeplini cerinta din tema 1), sper ca e in regula acum. Unii setteri rari i-am lasat; consider ca sunt absolut necesari.
@@ -10,6 +11,7 @@ Multumesc pt feedback in avans si pt intelegerea cu deadline-ul!
 
 Estimare terminare tema 1: 30 aprilie - 2 mai
 Estimare terminare tema 2: 3-5 mai
+
 NU E FINAL!
 
 Un joc de Monopoly in comanda de linie.
