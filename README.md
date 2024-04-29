@@ -13,7 +13,7 @@ Nu imi este foarte clar de ce Valgrind (si alte similare) crapa? Din ce am citit
 #### Cerințe
 - [X] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
 - [X] constructori de inițializare
-- [ ] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
+- [X] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor (src/card.cpp)
 <!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
 <!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
 - [ ] `operator<<` pentru toate clasele pentru afișare (std::ostream)
@@ -37,10 +37,10 @@ Nu imi este foarte clar de ce Valgrind (si alte similare) crapa? Din ce am citit
   - [ ] funcții virtuale (pure) apelate prin pointeri de bază din clasa care conține atributul de tip pointer de bază
     - minim o funcție virtuală va fi **specifică temei** (e.g. nu simple citiri/afișări)
     - constructori virtuali (clone): sunt necesari, dar nu se consideră funcții specifice temei
-  - [ ] apelarea constructorului din clasa de bază din constructori din derivate
-  - [ ] smart pointers (recomandat, opțional)
-  - [ ] `dynamic_cast`/`std::dynamic_pointer_cast` pentru downcast cu sens
-- [ ] suprascris cc/op= pentru copieri/atribuiri corecte, copy and swap
+  - [X] apelarea constructorului din clasa de bază din constructori din derivate (src/tiles/*.cpp)
+  - [X] smart pointers (recomandat, opțional) (src/board.cpp)
+  - [X] `dynamic_cast`/`std::dynamic_pointer_cast` pentru downcast cu sens (nu mai stiu acum exact unde dar aproape sigur era undeva)
+- [X] suprascris cc/op= pentru copieri/atribuiri corecte, copy and swap (src/card.cpp)
 - [ ] excepții
   - [ ] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim **3** clase pentru erori specifice
   - [ ] utilizare cu sens: de exemplu, `throw` în constructor (sau funcție care întoarce un obiect), `try`/`catch` în `main`
@@ -61,5 +61,5 @@ Nu imi este foarte clar de ce Valgrind (si alte similare) crapa? Din ce am citit
 - [ ] tag de `git`: de exemplu `v0.3` sau `v1.0`
 
 ## Resurse
-
-- adăugați trimiteri către resursele externe care v-au ajutat sau pe care le-ați folosit
+https://github.com/nlohmann/json
+https://github.com/ikalnytskyi/termcolor
