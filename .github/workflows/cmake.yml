@@ -65,8 +65,6 @@ jobs:
                    --project="${BUILD_DIR}"/compile_commands.json \
                    -i"${BUILD_DIR}" --suppress='*:"${BUILD_DIR}"/*' \
                    -i"${EXT_DIR}" --suppress='*:"${EXT_DIR}"/*' \
-                    -i"${INCLUDE_DIR}" --suppress='*:"${INCLUDE_DIR}"/*' \
-                    -i"${SRC_DIR}" --suppress='*:"${SRC_DIR}"/*' \
                    --suppress=missingIncludeSystem \
                    --suppress=unmatchedSuppression \
                    --suppress=useStlAlgorithm \
