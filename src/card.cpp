@@ -24,13 +24,16 @@ std::pair<int, int> Card::GetValue() const
 	return values_;
 }
 
+void Card::swap(Card &other) noexcept
+{
+	std::swap(const_cast<std::string&>(description_), const_cast<std::string&>(other.description_));
+	std::swap(const_cast<std::string&>(type_), const_cast<std::string&>(other.type_));
+	std::swap(const_cast<std::pair<int, int>&>(values_), const_cast<std::pair<int, int>&>(other.values_));
+}
+
 Card &Card::operator=(const Card &other)
 {
-	if (this != &other) {
-		const_cast<std::string&>(description_) = other.description_;
-		const_cast<std::string&>(type_) = other.type_;
-		const_cast<std::pair<int, int>&>(values_) = other.values_;
-	}
+	swap(const_cast<Card&>(other));
 
 	return *this;
 }

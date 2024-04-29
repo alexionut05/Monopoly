@@ -14,6 +14,7 @@ public:
 	std::string GetType() const;
 	std::pair<int, int> GetValue() const;
 
+	void swap(Card &other) noexcept;
 	Card &operator=(const Card &other);
 
 private:
