@@ -9,7 +9,7 @@ public:
 	
 	int GetTaxAmount() const;
 
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 	
 private:
 	const int tax_amount_;

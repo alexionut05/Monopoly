@@ -1,12 +1,7 @@
 #include "tiles/jail.hpp"
 
-Jail::Jail(const std::string &name, const std::string &owner, const int jail_fine)
-	: Tile(0, name, owner), jail_fine_(jail_fine) {}
-
-int Jail::GetJailFine() const
-{
-	return jail_fine_;
-}
+Jail::Jail(const std::string &name, const std::string &owner)
+	: Tile(0, name, owner) {}
 
 void Jail::AddPlayerJailed(const std::string &player)
 {

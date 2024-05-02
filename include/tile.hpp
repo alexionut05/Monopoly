@@ -20,10 +20,10 @@ public:
 	std::string GetOwner() const;
 	std::vector<std::string> GetPlayersHere() const;
 
-	void SetOwner(const std::string owner);
+	void SetOwner(const std::string &owner);
 
-	void AddPlayerHere(const std::string player_name);
-	void RemovePlayerHere(const std::string player_name);
+	void AddPlayerHere(const std::string &player_name);
+	void RemovePlayerHere(const std::string &player_name);
 
 	virtual void Print(std::ostream &os) const = 0;
 

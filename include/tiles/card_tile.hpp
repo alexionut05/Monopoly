@@ -7,7 +7,7 @@ class CardTile : public Tile {
 public:
 	CardTile(const std::string &name, const std::string &owner);
 	
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 };
 
 #endif // "CARD_TILE_HPP"

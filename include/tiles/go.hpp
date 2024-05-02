@@ -9,7 +9,7 @@ public:
 
 	int GetPassGoAmount() const;
 	
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 	
 private:
 	const int pass_go_amount_;

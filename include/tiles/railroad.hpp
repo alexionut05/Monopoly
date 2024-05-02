@@ -1,4 +1,4 @@
-#ifndef RAIlROAD_HPP
+#ifndef RAILROAD_HPP
 #define RAILROAD_HPP
 
 #include "tile.hpp"
@@ -12,7 +12,7 @@ public:
 
 	void SetTileLevel(const int tile_level);
 	
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 
 private:
 	int tile_level_;

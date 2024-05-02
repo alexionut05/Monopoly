@@ -7,7 +7,7 @@ class FreeParking : public Tile {
 public:
 	FreeParking(const std::string &name, const std::string &owner);
 	
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 };
 
 #endif // "FREE_PARKING_HPP"

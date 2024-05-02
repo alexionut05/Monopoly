@@ -12,7 +12,7 @@ public:
 
 	void SetTileLevel(const int level);
 
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 
 private:
 	int tile_level_;

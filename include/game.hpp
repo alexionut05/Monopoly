@@ -50,7 +50,7 @@ public:
 	int GetHouseCost(Tile *tile) const;
 	int HandlePlayerArrivalAtTile(Player &player, Tile *tile, int multiplier = 1);
 	void PayRent(Player &payer, Player &owner, const int rent);
-	int HandleDrawCard(Player &player, const std::string card_type, int &multiplier);
+	int HandleDrawCard(Player &player, const std::string &card_type, int &multiplier);
 
 	// Print methods
 	void PrintBlank();

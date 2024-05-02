@@ -5,7 +5,7 @@
 
 class Jail : public Tile {
 public:
-	Jail(const std::string &name, const std::string &owner, const int jail_fine);
+	Jail(const std::string &name, const std::string &owner);
 
 	int GetJailFine() const;
 
@@ -13,10 +13,9 @@ public:
 	void RemovePlayerJailed(const std::string &player);
 	bool IsPlayerJailed(const std::string &player) const;
 	
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 	
 private:
-	const int jail_fine_;
 	std::vector<std::string> players_jailed_;
 };
 

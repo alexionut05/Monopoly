@@ -37,14 +37,14 @@ public:
 		
 	int GetBuildingCost() const;
 	int GetTileLevel() const;
-	std::string GetColour() const;
+	// std::string GetColour() const;
 	std::string GetColourType() const;
 	std::array<int, 7> GetRent() const;
 
 	void AddBuilding(const int amount = 1);
 	void SetTileLevel(const int level);
 
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 	void SetPrintColour(std::ostream &os) const;
 
 private:

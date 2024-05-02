@@ -422,6 +422,14 @@ void Game::PlayTurnInJail(Player &player)
 
 	if (escaped == false) {
 		player.AddJailTurns();
+	} else {
+		for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+			if (dynamic_cast<Jail*>(board_.GetTileAt(i).get()) != nullptr) {
+				Jail *jail = dynamic_cast<Jail*>(board_.GetTileAt(i).get());
+				jail->RemovePlayerJailed(player.GetName());
+				break;
+			}
+		}
 	}
 }
 
@@ -764,7 +772,7 @@ void Game::PayRent(Player &payer, Player &owner, const int rent)
 //     0 = nothing happens
 //     1 = jail
 //     2 = move card (will repeat the HandlePlayerArrivalAtTile function)
-int Game::HandleDrawCard(Player &player, const std::string deck_type, int &multiplier)
+int Game::HandleDrawCard(Player &player, const std::string &deck_type, int &multiplier)
 {
 	std::string message = game_locales_["action_draw_card"].get<std::string>();
 	std::string placeholder = "{{card_type}}";
@@ -1318,8 +1326,8 @@ void Game::ActionBuyHouse(Player &player)
 	if (confirm == 'y') {
 		player.AddBalance(-house_cost);
 		property->AddBuilding();
-		std::string message = game_locales_["action_buy_house_success"].get<std::string>();
-		std::string placeholder = "{{tile_name}}";
+		message = game_locales_["action_buy_house_success"].get<std::string>();
+		placeholder = "{{tile_name}}";
 		message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
 		placeholder = "{{house_price}}";
 		message.replace(message.find(placeholder), placeholder.length(), std::to_string(house_cost));
@@ -1380,8 +1388,8 @@ void Game::ActionSellHouse(Player &player)
 	if (confirm == 'y') {
 		player.AddBalance(house_cost);
 		property->AddBuilding(-1);
-		std::string message = game_locales_["action_sell_house_success"].get<std::string>();
-		std::string placeholder = "{{tile_name}}";
+		message = game_locales_["action_sell_house_success"].get<std::string>();
+		placeholder = "{{tile_name}}";
 		message.replace(message.find(placeholder), placeholder.length(), property->GetName());
 		placeholder = "{{house_price}}";
 		message.replace(message.find(placeholder), placeholder.length(), std::to_string(house_cost));

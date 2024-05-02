@@ -14,10 +14,12 @@ int Property::GetTileLevel() const
 	return tile_level_;
 }
 
-std::string Property::GetColour() const
-{
-	return colour_;
-}
+// will be used later for accesibility purposes
+//
+// std::string Property::GetColour() const
+// {
+// 	return colour_;
+// }
 
 std::string Property::GetColourType() const
 {

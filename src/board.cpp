@@ -85,9 +85,8 @@ void Board::InitGo(const size_t i)
 void Board::InitJail(const size_t i)
 {
 	std::string name = tiles_data_["name"][i].get<std::string>();
-	int jail_bail = tiles_data_["tile_price"][i].get<int>();
 
-	Jail tile(name, bank_name_, jail_bail);
+	Jail tile(name, bank_name_);
 
 	tiles_[i] = std::make_unique<Jail>(tile);
 }

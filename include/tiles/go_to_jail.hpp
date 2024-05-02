@@ -7,7 +7,7 @@ class GoToJail : public Tile {
 public:
 	GoToJail(const std::string &name, const std::string &owner);
 	
-	void Print(std::ostream &os) const;
+	void Print(std::ostream &os) const override;
 };
 
 #endif // "GO_TO_JAIL_HPP"
