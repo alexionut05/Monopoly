@@ -710,7 +710,7 @@ int Game::HandlePlayerArrivalAtTile(Player &player, Tile *tile, int multiplier)
 			PrintBlank();
 			std::pair <int, int> dice_values = ActionRollDice();
 			int dice_total = dice_values.first + dice_values.second;
-			int rent = std::max(utility->GetDiceMultiplier()[utility->GetTileLevel()], multiplier) * dice_total;
+			int rent = MaxInt(utility->GetDiceMultiplier()[utility->GetTileLevel()], multiplier) * dice_total;
 			PayRent(player, players_[FindPlayerByName(utility->GetOwner())], rent);
 			PrintBlank();
 			std::cout << std::endl << std::endl;
@@ -1115,7 +1115,7 @@ void Game::ActionBuyTile(Player &player)
 			if (all_colour == true) {
 				for (size_t i = 0; i < colour_group.size(); ++i) {
 					Property *other_property = dynamic_cast<Property*>(board_.GetTileAt(colour_group[i]).get());
-					other_property->SetTileLevel(std::max(1, other_property->GetTileLevel()));
+					other_property->SetTileLevel(MaxInt(1, other_property->GetTileLevel()));
 				}
 			}
 		} else if (dynamic_cast<Railroad*>(tile) != nullptr) {
@@ -1132,7 +1132,7 @@ void Game::ActionBuyTile(Player &player)
 			}
 			for (size_t i = 0; i < railroad_group.size(); ++i) {
 				Railroad *railroad = dynamic_cast<Railroad*>(board_.GetTileAt(railroad_group[i]).get());
-				railroad->SetTileLevel(std::max(owned_railroads - 1, 0));
+				railroad->SetTileLevel(MaxInt(owned_railroads - 1, 0));
 			}
 		} else if (dynamic_cast<Utility*>(tile) != nullptr) {
 			int owned_utilities = 0;
@@ -1148,7 +1148,7 @@ void Game::ActionBuyTile(Player &player)
 			}
 			for (size_t i = 0; i < utility_group.size(); ++i) {
 				Utility *utility = dynamic_cast<Utility*>(board_.GetTileAt(utility_group[i]).get());
-				utility->SetTileLevel(std::max(owned_utilities - 1, 0));
+				utility->SetTileLevel(MaxInt(owned_utilities - 1, 0));
 			}
 		}
 	} else if (confirm == 'n') {
@@ -1241,7 +1241,7 @@ void Game::ActionSellTile(Player &player)
 			}
 			for (size_t i = 0; i < railroad_group.size(); ++i) {
 				Railroad *railroad = dynamic_cast<Railroad*>(board_.GetTileAt(railroad_group[i]).get());
-				railroad->SetTileLevel(std::max(owned_railroads - 1, 0));
+				railroad->SetTileLevel(MaxInt(owned_railroads - 1, 0));
 			}
 		} else if (dynamic_cast<Utility*>(tile) != nullptr) {
 			int owned_utilities = 0;
@@ -1257,7 +1257,7 @@ void Game::ActionSellTile(Player &player)
 			}
 			for (size_t i = 0; i < utility_group.size(); ++i) {
 				Utility *utility = dynamic_cast<Utility*>(board_.GetTileAt(utility_group[i]).get());
-				utility->SetTileLevel(std::max(owned_utilities - 1, 0));
+				utility->SetTileLevel(MaxInt(owned_utilities - 1, 0));
 			}
 		}
 	} else if (confirm == 'n') {
@@ -1448,4 +1448,9 @@ std::ostream &operator<<(std::ostream &os, const Game &game)
 	}
 
 	return os;
+}
+
+int Game::MaxInt(const int a, const int b) const
+{
+	return (a > b) ? a : b;
 }
