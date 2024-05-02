@@ -130,7 +130,7 @@ void Property::SetPrintColour(std::ostream &os) const
 	else if (colour_type_ == "Yellow")
 	{
 		os << termcolor::on_color<YELLOW_R, YELLOW_G, YELLOW_B>;
-		os << termcolor::color<255, 255, 255>;
+		os << termcolor::color<0, 0, 0>;
 	}
 	else if (colour_type_ == "Green")
 	{
