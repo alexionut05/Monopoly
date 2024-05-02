@@ -16,7 +16,6 @@ void Game::InitGame()
 
 	// Init board
 	board_.InitBoard();
-	std::cout << board_;
 
 	// Load locales
 	InitLocales();
