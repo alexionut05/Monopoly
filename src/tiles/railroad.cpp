@@ -13,6 +13,11 @@ std::array<int, 4> Railroad::GetRent() const
 	return rent_;
 }
 
+void Railroad::SetTileLevel(const int level)
+{
+	tile_level_ = level;
+}
+
 void Railroad::Print(std::ostream &os) const
 {
 	os << termcolor::bold << termcolor::on_white << termcolor::color<255, 255, 255>;
@@ -56,7 +61,7 @@ void Railroad::Print(std::ostream &os) const
 	os << termcolor::underline;
 
 	if (GetOwner() != "Bank") {
-		os << "Rent: " << GetRent().at(GetTileLevel());
+		os << "Rent: $" << GetRent().at(GetTileLevel());
 	} else {
 		os << "Buy for: $" << GetTileCost();
 	}

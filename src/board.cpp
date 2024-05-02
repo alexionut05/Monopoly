@@ -1,12 +1,15 @@
 #include "board.hpp"
 
-Board::Board(const int bail_value, const std::string &bank_name, const nlohmann::json &tiles_data)
-	: bail_value_(bail_value), bank_name_(bank_name), tiles_data_(tiles_data)
+Board::Board(const int bail_value, const std::string &bank_name, const std::string &tiles_file)
+	: bail_value_(bail_value), bank_name_(bank_name)
 {
 	for (size_t i = 0; i < tiles_.size(); ++i) {
 		tiles_[i] = nullptr;
 	}
 
+	std::ifstream file(tiles_file);
+	tiles_data_ = nlohmann::json::parse(file);	
+	file.close();
 }
 
 // Board methods
@@ -20,7 +23,7 @@ void Board::InitBoard()
 // Tile methods
 void Board::InitTile(const size_t i)
 {
-	std::string type = tiles_data_["tiles"][i][0].get<std::string>();
+	std::string type = tiles_data_["type"][i].get<std::string>();
 	if (type == "Chance" || type == "Community Chest") {
 		InitCardTile(i);
 	} else if (type == "Free Parking") {
@@ -44,7 +47,7 @@ void Board::InitTile(const size_t i)
 
 void Board::InitCardTile(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
 
 	CardTile tile(name, bank_name_);
 
@@ -53,7 +56,7 @@ void Board::InitCardTile(const size_t i)
 
 void Board::InitFreeParking(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
 
 	FreeParking tile(name, bank_name_);
 
@@ -62,7 +65,7 @@ void Board::InitFreeParking(const size_t i)
 
 void Board::InitGoToJail(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
 
 	GoToJail tile(name, bank_name_);
 
@@ -71,8 +74,8 @@ void Board::InitGoToJail(const size_t i)
 
 void Board::InitGo(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
-	int pass_go = tiles_data_["tiles"][i][2].get<int>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
+	int pass_go = tiles_data_["tile_price"][i].get<int>();
 
 	Go tile(name, bank_name_, pass_go);
 
@@ -81,8 +84,8 @@ void Board::InitGo(const size_t i)
 
 void Board::InitJail(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
-	int jail_bail = tiles_data_["tiles"][i][2].get<int>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
+	int jail_bail = tiles_data_["tile_price"][i].get<int>();
 
 	Jail tile(name, bank_name_, jail_bail);
 
@@ -91,12 +94,12 @@ void Board::InitJail(const size_t i)
 
 void Board::InitProperty(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
-	int tile_cost = tiles_data_["tiles"][i][2].get<int>();
-	int building_cost = tiles_data_["tiles"][i][3].get<int>();
-	std::string colour = tiles_data_["tiles"][i][4].get<std::string>();
-	std::string colour_type = tiles_data_["tiles"][i][5].get<std::string>();
-	std::array<int, 7> rent = tiles_data_["tiles"][i][6].get<std::array<int, 7>>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
+	int tile_cost = tiles_data_["tile_price"][i].get<int>();
+	int building_cost = tiles_data_["house_price"][i].get<int>();
+	std::string colour = tiles_data_["colour"][i].get<std::string>();
+	std::string colour_type = tiles_data_["colour_type"][i].get<std::string>();
+	std::array<int, 7> rent = tiles_data_["rents"][i].get<std::array<int, 7>>();
 
 	Property tile(tile_cost, name, bank_name_, building_cost, colour, colour_type, rent);
 
@@ -105,9 +108,9 @@ void Board::InitProperty(const size_t i)
 
 void Board::InitRailroad(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
-	int tile_cost = tiles_data_["tiles"][i][2].get<int>();
-	std::array<int, 4> rent = tiles_data_["tiles"][i][3].get<std::array<int, 4>>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
+	int tile_cost = tiles_data_["tile_price"][i].get<int>();
+	std::array<int, 4> rent = tiles_data_["rents"][i].get<std::array<int, 4>>();
 
 	Railroad tile(tile_cost, name, bank_name_, rent);
 
@@ -116,8 +119,8 @@ void Board::InitRailroad(const size_t i)
 
 void Board::InitTax(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
-	int tax_amount = tiles_data_["tiles"][i][2].get<int>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
+	int tax_amount = tiles_data_["tile_price"][i].get<int>();
 
 	Tax tile(name, bank_name_, tax_amount);
 
@@ -126,9 +129,9 @@ void Board::InitTax(const size_t i)
 
 void Board::InitUtility(const size_t i)
 {
-	std::string name = tiles_data_["tiles"][i][1].get<std::string>();
-	int tile_cost = tiles_data_["tiles"][i][2].get<int>();
-	std::array<int, 2> dice_multiplier = tiles_data_["tiles"][i][3].get<std::array<int, 2>>();
+	std::string name = tiles_data_["name"][i].get<std::string>();
+	int tile_cost = tiles_data_["tile_price"][i].get<int>();
+	std::array<int, 2> dice_multiplier = tiles_data_["rents"][i].get<std::array<int, 2>>();
 
 	Utility tile(tile_cost, name, bank_name_, dice_multiplier);
 
@@ -141,7 +144,7 @@ std::unique_ptr<Tile>& Board::GetTileAt(const size_t i)
 	return tiles_[i];
 }
 
-int Board::GetBoardSize() const
+size_t Board::GetBoardSize() const
 {
 	return tiles_.size();
 }
@@ -167,7 +170,16 @@ std::ostream& operator<<(std::ostream &os, const Board &board)
 			os << termcolor::italic << termcolor::grey;
 			os << "        ^ Here: ";
 			for (const auto &player : tile->GetPlayersHere()) {
-				os << player << " ";
+				if (dynamic_cast<Jail*>(tile.get())) {
+					Jail *jail = dynamic_cast<Jail*>(tile.get());
+					if (jail->IsPlayerJailed(player)) {
+						os << termcolor::red << player << termcolor::grey << "  ";
+					} else {
+						os << player << " (visiting)  ";
+					}
+				} else {
+					os << player << "  ";
+				}
 			}
 			os << termcolor::reset << std::endl;
 		}

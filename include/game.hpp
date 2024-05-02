@@ -37,16 +37,20 @@ public:
 	void AddPlayer(const Player &player);
 	void RemovePlayer(Player &player);
 	bool PromptPlayerReady(const Player &player);
+	int FindPlayerByName(const std::string &name) const;
 
 	// Board methods
-	void MovePlayerAt(Player &player, const int position);
+	void MovePlayerAt(Player &player, const int position, const bool init = false);
 	void MovePlayerBy(Player &player, const int steps);
+	void MovePlayerToJail(Player &player);
 	bool IsPlayerEnabledTile(Tile *tile) const;
 	bool CanAffordTransaction(const Player &player, const int amount) const;
 	bool IsPlayerOwnedTile(Tile *tile) const;
 	int GetHousesOnTile(Tile *tile) const;
 	int GetHouseCost(Tile *tile) const;
-	void AddHouseToTile(Tile *tile, const int amount);
+	int HandlePlayerArrivalAtTile(Player &player, Tile *tile, int multiplier = 1);
+	void PayRent(Player &payer, Player &owner, const int rent);
+	int HandleDrawCard(Player &player, const std::string card_type, int &multiplier);
 
 	// Print methods
 	void PrintBlank();
@@ -55,11 +59,18 @@ public:
 	void PrintOptionIllegal();
 	void PrintOptionRollDice();
 	void PrintOptionQuitGame();
+	void PrintOptionPrintBoard();
 	void PrintOptionInfo();
 	void PrintOptionBuyTile(const Player &player);
 	void PrintOptionSellTile();
 	void PrintOptionBuyHouse();
 	void PrintOptionSellHouse();
+	void PrintOptionEndTurn();
+	void PrintOptionJailRoll();
+	void PrintOptionJailPay();
+	void PrintOptionJailUseCard(const Player &player);
+	void PrintPlayerDoomedInJail(const Player &player);
+
 
 	// Action methods
 	std::pair<int, int> ActionRollDice();
@@ -69,6 +80,7 @@ public:
 	void ActionSellTile(Player &player);
 	void ActionBuyHouse(Player &player);
 	void ActionSellHouse(Player &player);
+	bool ActionEndTurn(Player &player);
 
 	// Clear screen
 	void ClearScreen();

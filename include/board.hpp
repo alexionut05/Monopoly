@@ -20,7 +20,7 @@
 
 class Board {
 public:
-	Board(const int bail_value, const std::string &bank_name, const nlohmann::json &tiles_data);
+	Board(const int bail_value, const std::string &bank_name, const std::string &tiles_file);
 
 	// Board methods
 	void InitBoard();
@@ -39,7 +39,7 @@ public:
 
 	// Getters
 	std::unique_ptr<Tile>& GetTileAt(const size_t i);
-	int GetBoardSize() const;
+	size_t GetBoardSize() const;
 	int GetBailValue() const;
 	std::string GetBankName() const;	
 
@@ -50,7 +50,7 @@ private:
 	std::array<std::unique_ptr<Tile>, 40> tiles_;
 	const int bail_value_;
 	const std::string bank_name_;
-	const nlohmann::json tiles_data_;
+	nlohmann::json tiles_data_;
 };
 
 #endif // "BOARD_HPP"

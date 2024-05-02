@@ -20,10 +20,10 @@ public:
 	void GoToJail();
 	void GetOutOfJail();
 
-	void AddBalance(int amount);
-	void AddJailTurns(int amount);
-	void AddGetOutOfJailCard(int amount);
-	void AddDoubleCount(int amount);
+	void AddBalance(const int amount);
+	void AddJailTurns(const int amount = 1);
+	void AddGetOutOfJailCard(const int amount = 1);
+	void AddDoubleCount(const int amount);
 	bool IsDoomedInJail(const int bail) const;
 
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);

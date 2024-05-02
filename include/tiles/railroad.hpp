@@ -9,6 +9,8 @@ public:
 
 	int GetTileLevel() const;
 	std::array<int, 4> GetRent() const;
+
+	void SetTileLevel(const int tile_level);
 	
 	void Print(std::ostream &os) const;
 

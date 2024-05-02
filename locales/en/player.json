@@ -1,5 +1,5 @@
 {
-	"ready": "Are you ready, {{player}}? (Y/N)",
+	"ready": "Are you ready, {{player}}? (Y/N) ",
 	"init_count": "How many players will be playing? ({{min}}-{{max}}): ",
 	"invalid_count": "Invalid number of players!",
 	"init_name": "Enter the name of player {{count}}: ",

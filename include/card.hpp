@@ -7,6 +7,7 @@
 class Card {
 public:
 	// Constructors and Destructor (pt tema 1)
+	Card();
 	Card(const std::string &description, const std::string &type, const std::pair<int, int> &values);
 	Card(const Card &other);
 	~Card();

@@ -34,6 +34,11 @@ void Property::AddBuilding(const int amount)
 	tile_level_ += amount;
 }
 
+void Property::SetTileLevel(const int level)
+{
+	tile_level_ = level;
+}
+
 void Property::Print(std::ostream &os) const
 {
 	os << termcolor::bold;
@@ -69,7 +74,7 @@ void Property::Print(std::ostream &os) const
 
 	for (int i = 0; i < 5; i++) {
 		os << "[";
-		if (tile_level_ - 2 >= i) {
+		if (tile_level_ - 1 >= i) {
 			os << "#";
 		} else {
 			os << " ";
@@ -86,7 +91,7 @@ void Property::Print(std::ostream &os) const
 	os << termcolor::underline;
 
 	if (owner_ != "Bank") {
-		os << "Rent: " << rent_.at(tile_level_);
+		os << "Rent: $" << rent_.at(tile_level_);
 	} else {
 		os << "Buy for: $" << tile_cost_;
 	}

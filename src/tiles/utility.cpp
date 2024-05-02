@@ -13,6 +13,11 @@ std::array<int, 2> Utility::GetDiceMultiplier() const
 	return dice_multiplier_;
 }
 
+void Utility::SetTileLevel(const int level)
+{
+	tile_level_ = level;
+}
+
 void Utility::Print(std::ostream &os) const
 {
 	os << termcolor::bold << termcolor::on_grey << termcolor::color<255, 255, 255>;

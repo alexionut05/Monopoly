@@ -1,6 +1,8 @@
 #include "card.hpp"
 
 // Constructor and Destructor (pt tema 1)
+Card::Card() : description_(""), type_(""), values_(std::make_pair(0, 0)) {}
+
 Card::Card(const std::string &description, const std::string &type, const std::pair<int, int> &values)
 	: description_(description), type_(type), values_(values) {}
 

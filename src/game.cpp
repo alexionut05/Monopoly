@@ -4,7 +4,7 @@
 Game::Game(const std::string &language, const int dice_min, const int dice_max, const int player_start_balance, 
 	const size_t min_players, const size_t max_players, const size_t min_name_length, const size_t max_name_length, 
 	const int chance_deck_size, const int community_deck_size, const int bail_value, const std::string &bank_name)
-	: board_(bail_value, bank_name, "../locales/" + language + "tiles.json"), chance_deck_(language, "chance", chance_deck_size),
+	: board_(bail_value, bank_name, "../locales/" + language + "/tiles.json"), chance_deck_(language, "chance", chance_deck_size),
 	community_deck_(language, "community_chest", community_deck_size), dice_(dice_min, dice_max), players_({}),
 	language_(language), player_start_balance_(player_start_balance),
 	min_players_(min_players), max_players_(max_players), min_name_length_(min_name_length), max_name_length_(max_name_length) {}
@@ -43,6 +43,7 @@ void Game::RunGame()
 	while (winner_index == -1) {
 		for (size_t i = 0; i < players_.size(); ++i) {
 			bool player_ready = false;
+			ClearScreen();
 			do {
 				player_ready = PromptPlayerReady(players_[i]);
 			} while (player_ready == false);
@@ -94,6 +95,7 @@ void Game::PlayTurn(Player &player)
 	do {
 		PrintBlank();
 		PrintTurnStart(player);
+		PrintOptionPrintBoard();
 		PrintOptionInfo();
 		PrintOptionSellTile();
 		PrintOptionBuyHouse();
@@ -104,20 +106,31 @@ void Game::PlayTurn(Player &player)
 		std::cout << std::endl;
 		std::cin >> option;
 		option = std::tolower(option);
-		std::cout << std::endl;
 		PrintBlank();
 
+		bool quit_confirm;
+
 		switch (option) {
+		case 't':
+			std::cout << board_ << std::endl << std::endl;
+			break;
 		case 'i':
 			ActionInfo();
+			PrintBlank();
+			std::cout << std::endl << std::endl;
 			break;
 		case 's':
 			ActionSellTile(player);
 			PrintBlank();
 			std::cout << std::endl << std::endl;
 			break;
-		case 'b':
+		case 'h':
 			ActionBuyHouse(player);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+			break;
+		case 'l':
+			ActionSellHouse(player);
 			PrintBlank();
 			std::cout << std::endl << std::endl;
 			break;
@@ -129,7 +142,7 @@ void Game::PlayTurn(Player &player)
 			std::cout << std::endl << std::endl;
 			break;
 		case 'q':
-			bool quit_confirm = ActionQuitGame(player);
+			quit_confirm = ActionQuitGame(player);
 			PrintBlank();
 			std::cout << std::endl << std::endl;
 
@@ -147,31 +160,270 @@ void Game::PlayTurn(Player &player)
 
 	// After roll
 	bool can_roll_again = false;
-	PrintBlank();
+	ClearScreen();
+	MovePlayerBy(player, dice_values.first + dice_values.second);
+	std::cout << board_ << std::endl << std::endl;
+
 	if (dice_values.first == dice_values.second) {
 		player.AddDoubleCount(1);
 		if (player.GetDoubleCount() == 3) {
+			PrintBlank();
 			std::cout << game_locales_["action_roll_dice_double_jail"].get<std::string>() << std::endl;
 			PrintBlank();
 			std::cout << std::endl << std::endl;
-			player.GoToJail();
+			MovePlayerToJail(player);
 			return;
 		} else {
 			can_roll_again = true;
+			PrintBlank();
 			std::cout << game_locales_["action_roll_dice_double_safe"].get<std::string>() << std::endl;
+			PrintBlank();
+			std::cout << std::endl << std::endl;
 		}
 	}
 
 	// Move player
-	MovePlayerBy(player, dice_values.first + dice_values.second);
 	Tile *tile = board_.GetTileAt(player.GetPosition()).get();
 	std::string message = game_locales_["action_move"].get<std::string>();
 	std::string placeholder = "{{tile_name}}";
 	message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
+	PrintBlank();
 	std::cout << message << std::endl;
+	PrintBlank();
+	std::cout << std::endl << std::endl;
 
 	// Tile action
-	
+	// 0 = default
+	// 1 = jail
+	// 2 = can buy
+	int tile_result = HandlePlayerArrivalAtTile(player, tile);
+
+	if (tile_result != 1) {
+		do {
+			PrintBlank();
+			PrintTurnStart(player);
+			PrintOptionPrintBoard();
+			PrintOptionInfo();
+			if (tile_result == 2) {
+				PrintOptionBuyTile(player);
+			}
+			PrintOptionSellTile();
+			PrintOptionBuyHouse();
+			PrintOptionSellHouse();
+			PrintOptionEndTurn();
+			PrintOptionQuitGame();
+			PrintBlank();
+			std::cout << std::endl;
+			std::cin >> option;
+			option = std::tolower(option);
+			PrintBlank();
+
+			bool quit_confirm;
+
+			switch (option) {
+			case 't':
+				std::cout << board_ << std::endl << std::endl;
+				break;
+			case 'i':
+				ActionInfo();
+				break;
+			case 'b':
+				if (tile_result == 2) {
+					ActionBuyTile(player);
+					PrintBlank();
+					std::cout << std::endl << std::endl;
+				} else {
+					PrintOptionIllegal();
+					PrintBlank();
+					std::cout << std::endl << std::endl;
+				}
+				break;
+			case 's':
+				ActionSellTile(player);
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+				break;
+			case 'h':
+				ActionBuyHouse(player);
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+				break;
+			case 'l':
+				ActionSellHouse(player);
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+				break;
+			case 'e':
+				quit_confirm = ActionEndTurn(player);
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+				break;
+			case 'q':
+				quit_confirm = ActionQuitGame(player);
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+
+				if (quit_confirm == true) {
+					return;
+				}
+				break;
+			default:
+				PrintOptionIllegal();
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+				break;
+			}
+		} while (option != 'e');
+	}
+
+	if (can_roll_again == true) {
+		PlayTurn(player);
+	}
+}
+
+void Game::PlayTurnInJail(Player &player)
+{
+	ClearScreen();
+	std::cout << board_ << std::endl;
+
+	bool can_try_roll = player.GetJailTurns() < 4;
+	bool can_use_card = player.GetGetOutOfJailCardsCount() > 0;
+	char option = ' ';
+
+	bool escaped = false;
+
+	do {
+		PrintBlank();
+		PrintTurnStartJail(player);
+		PrintOptionPrintBoard();
+		PrintOptionInfo();
+		if (player.IsDoomedInJail(board_.GetBailValue()) == true) {
+			PrintPlayerDoomedInJail(player);
+		}
+		PrintOptionSellTile();
+		PrintOptionBuyHouse();
+		PrintOptionSellHouse();
+		if (can_try_roll == true) {
+			PrintOptionJailRoll();
+		}
+		if (can_use_card == true) {
+			PrintOptionJailUseCard(player);
+		}
+		PrintOptionJailPay();
+		PrintOptionQuitGame();
+		PrintBlank();
+		std::cout << std::endl;
+		std::cin >> option;
+		option = std::tolower(option);
+		PrintBlank();
+
+		bool quit_confirm;
+
+		std::string message;
+		std::string placeholder;
+
+		switch (option) {
+		case 't':
+			std::cout << board_ << std::endl << std::endl;
+			break;
+		case 'i':
+			ActionInfo();
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+			break;
+		case 's':
+			ActionSellTile(player);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+			break;
+		case 'b':
+			ActionBuyHouse(player);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+			break;
+		case 'l':
+			ActionSellHouse(player);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+			break;
+		case 'r':
+			if (can_try_roll == true) {
+				ClearScreen();
+				PrintBlank();
+				std::pair<int, int> dice_values = ActionRollDice();
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+
+				if (dice_values.first == dice_values.second) {
+					message = game_locales_["action_roll_dice_double_escape"].get<std::string>();
+					std::cout << message << std::endl;
+					player.GetOutOfJail();
+					escaped = true;
+					MovePlayerBy(player, dice_values.first + dice_values.second);
+					message = game_locales_["action_move"].get<std::string>();
+					placeholder = "{{tile_name}}";
+					message.replace(message.find(placeholder), placeholder.length(), board_.GetTileAt(player.GetPosition())->GetName());
+					std::cout << message << std::endl;
+					PrintBlank();
+					std::cout << std::endl << std::endl;
+				} else {
+					message = game_locales_["action_roll_dice_double_fail"].get<std::string>();
+					std::cout << message << std::endl;
+					PrintBlank();
+					std::cout << std::endl << std::endl;
+				}
+			} else {
+				PrintOptionIllegal();
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+			}
+			break;
+		case 'j':
+			if (can_use_card == true) {
+				player.AddGetOutOfJailCard(-1);
+				player.GetOutOfJail();
+				escaped = true;
+				message = game_locales_["action_use_card"].get<std::string>();
+				std::cout << message << std::endl;
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+			} else {
+				PrintOptionIllegal();
+				PrintBlank();
+				std::cout << std::endl << std::endl;
+			}
+			break;
+		case 'p':
+			player.AddBalance(-board_.GetBailValue());
+			player.GetOutOfJail();
+			escaped = true;
+			message = game_locales_["action_pay_fine"].get<std::string>();
+			placeholder = "{{fine}}";
+			message.replace(message.find(placeholder), placeholder.length(), std::to_string(board_.GetBailValue()));
+			std::cout << message << std::endl;
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+			break;
+		case 'q':
+			quit_confirm = ActionQuitGame(player);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+
+			if (quit_confirm == true) {
+				return;
+			}
+			break;
+		default:
+			PrintOptionIllegal();
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+			break;
+		}
+	} while (option != 'q' && escaped == false);
+
+	if (escaped == false) {
+		player.AddJailTurns();
+	}
 }
 
 // Locales methods
@@ -228,7 +480,7 @@ void Game::InitPlayers()
 		} while (IsPlayerNameValid(name) == false);
 
 		AddPlayer(Player(name, player_start_balance_));
-		MovePlayerAt(players_[i], 0);
+		MovePlayerAt(players_[i], 0, true);
 	}
 }
 
@@ -279,13 +531,20 @@ void Game::RemovePlayer(Player &player)
 	message.replace(message.find(placeholder), placeholder.length(), player.GetName());
 	std::cout << message << std::endl;
 
-	for (int i = 0; i < board_.GetBoardSize(); ++i) {
-		if (board_.GetTileAt(i)->GetOwner() == player.GetName()) {
+	std::string removed_player_name = player.GetName();
+
+	for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+		if (board_.GetTileAt(i)->GetOwner() == removed_player_name) {
 			board_.InitTile(i);
 		}
 	}
 
-	players_.erase(std::remove(players_.begin(), players_.end(), player), players_.end());
+	for (size_t i = 0; i < players_.size(); ++i) {
+		if (players_[i].GetName() == removed_player_name) {
+			players_.erase(players_.begin() + i);
+			break;
+		}
+	}
 }
 
 bool Game::PromptPlayerReady(const Player &player)
@@ -298,7 +557,6 @@ bool Game::PromptPlayerReady(const Player &player)
 	char ready;
 	std::cin >> ready;
 	ready = std::tolower(ready);
-	std::cout << std::endl;
 
 	if (ready == 'y') {
 		return true;
@@ -306,9 +564,23 @@ bool Game::PromptPlayerReady(const Player &player)
 	return false;
 }
 
-// Board methods
-void Game::MovePlayerAt(Player &player, const int position)
+int Game::FindPlayerByName(const std::string &name) const
 {
+	for (size_t i = 0; i < players_.size(); ++i) {
+		if (players_[i].GetName() == name) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+// Board methods
+void Game::MovePlayerAt(Player &player, const int position, const bool init)
+{
+	if (position <= player.GetPosition() && init == false) {
+		int pass_go = dynamic_cast<Go*>(board_.GetTileAt(0).get())->GetPassGoAmount();
+		player.AddBalance(pass_go);
+	}
 	board_.GetTileAt(player.GetPosition())->RemovePlayerHere(player.GetName());
 	board_.GetTileAt(position)->AddPlayerHere(player.GetName());
 	player.SetPosition(position);
@@ -317,7 +589,7 @@ void Game::MovePlayerAt(Player &player, const int position)
 void Game::MovePlayerBy(Player &player, const int steps)
 {
 	int new_position = player.GetPosition() + steps;
-	if (new_position >= board_.GetBoardSize()) {
+	if (new_position >= static_cast<int>(board_.GetBoardSize())) {
 		new_position -= board_.GetBoardSize();
 		int pass_go = dynamic_cast<Go*>(board_.GetTileAt(0).get())->GetPassGoAmount();
 		player.AddBalance(pass_go);
@@ -325,6 +597,19 @@ void Game::MovePlayerBy(Player &player, const int steps)
 	}
 	MovePlayerAt(player, new_position);
 }
+
+void Game::MovePlayerToJail(Player &player)
+{
+	player.GoToJail();
+	for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+		if (dynamic_cast<Jail*>(board_.GetTileAt(i).get()) != nullptr) {
+			Jail *jail = dynamic_cast<Jail*>(board_.GetTileAt(i).get());
+			jail->AddPlayerJailed(player.GetName());
+			break;
+		}
+	}
+}
+
 
 bool Game::IsPlayerEnabledTile(Tile *tile) const
 {
@@ -361,8 +646,8 @@ int Game::GetHousesOnTile(Tile *tile) const
 {
 	if (dynamic_cast<Property*>(tile) != nullptr) {
 		Property *property = dynamic_cast<Property*>(tile);
-		if (property->GetTileLevel() > 2) {
-			return property->GetTileLevel() - 2;
+		if (property->GetTileLevel() >= 2) {
+			return property->GetTileLevel() - 1;
 		}
 	}
 	return 0;
@@ -378,11 +663,222 @@ int Game::GetHouseCost(Tile *tile) const
 	return -1;
 }
 
-void Game::AddHouseToTile(Tile *tile, const int amount)
+// Function to handle the player arrival at a tile
+// Return values:
+//     0 = nothing happens
+//     1 = jail
+//     2 = can buy
+int Game::HandlePlayerArrivalAtTile(Player &player, Tile *tile, int multiplier)
 {
+	int goes_to_jail = 0;
+	int can_buy = 0;
+	bool function_repeat = false;
 	if (dynamic_cast<Property*>(tile) != nullptr) {
 		Property *property = dynamic_cast<Property*>(tile);
-		property->AddBuilding(amount);
+		if (property->GetOwner() == board_.GetBankName()) {
+			can_buy = 1;
+		} else if (property->GetOwner() != player.GetName()) {
+			PrintBlank();
+			int rent = property->GetRent()[property->GetTileLevel()];
+			PayRent(player, players_[FindPlayerByName(property->GetOwner())], rent);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+		}
+	} else if (dynamic_cast<Railroad*>(tile) != nullptr) {
+		Railroad *railroad = dynamic_cast<Railroad*>(tile);
+		if (railroad->GetOwner() == board_.GetBankName()) {
+			can_buy = 1;
+		} else if (railroad->GetOwner() != player.GetName()) {
+			PrintBlank();
+			int rent = railroad->GetRent()[railroad->GetTileLevel()] * multiplier;
+			PayRent(player, players_[FindPlayerByName(railroad->GetOwner())], rent);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+		}
+	} else if (dynamic_cast<Utility*>(tile) != nullptr) {
+		Utility *utility = dynamic_cast<Utility*>(tile);
+		if (utility->GetOwner() == board_.GetBankName()) {
+			can_buy = 1;
+		} else if (utility->GetOwner() != player.GetName()) {
+			PrintBlank();
+			std::pair <int, int> dice_values = ActionRollDice();
+			int dice_total = dice_values.first + dice_values.second;
+			int rent = std::max(utility->GetDiceMultiplier()[utility->GetTileLevel()], multiplier) * dice_total;
+			PayRent(player, players_[FindPlayerByName(utility->GetOwner())], rent);
+			PrintBlank();
+			std::cout << std::endl << std::endl;
+		
+		}
+	} else if (dynamic_cast<CardTile*>(tile) != nullptr) {
+		CardTile *card_tile = dynamic_cast<CardTile*>(tile);
+		std::string card_type = card_tile->GetName();
+		// This will handle the outcome of the card
+		// 0 = nothing happens
+		// 1 = jail
+		// 2 = move card (will repeat this function)
+		PrintBlank();
+		int result = HandleDrawCard(player, card_type, multiplier);
+		PrintBlank();
+		std::cout << std::endl << std::endl;
+		if (result == 1) {
+			goes_to_jail = 1;
+		} else if (result == 2) {
+			function_repeat = true;
+		}
+	} else if (dynamic_cast<GoToJail*>(tile) != nullptr) {
+		MovePlayerToJail(player);
+		goes_to_jail = 1;
+	} else if (dynamic_cast<Tax*>(tile) != nullptr) {
+		Tax *tax = dynamic_cast<Tax*>(tile);
+		player.AddBalance(-tax->GetTaxAmount());
+	}
+
+	if (goes_to_jail == 1) {
+		return 1;
+	}
+	if (function_repeat == true) {
+		HandlePlayerArrivalAtTile(player, board_.GetTileAt(player.GetPosition()).get(), multiplier);
+	}
+
+	if (can_buy == 1) {
+		return 2;
+	}
+
+	return 0;
+}
+
+void Game::PayRent(Player &payer, Player &owner, const int rent)
+{
+	std::string message = game_locales_["action_pay_rent"].get<std::string>();
+	std::string placeholder = "{{rent}}";
+	message.replace(message.find(placeholder), placeholder.length(), std::to_string(rent));
+	placeholder = "{{owner}}";
+	message.replace(message.find(placeholder), placeholder.length(), owner.GetName());
+	std::cout << message << std::endl;
+
+	payer.AddBalance(-rent);
+	owner.AddBalance(rent);
+}
+
+// Fuction to handle drawing a card by the player
+// Return values:
+//     0 = nothing happens
+//     1 = jail
+//     2 = move card (will repeat the HandlePlayerArrivalAtTile function)
+int Game::HandleDrawCard(Player &player, const std::string deck_type, int &multiplier)
+{
+	std::string message = game_locales_["action_draw_card"].get<std::string>();
+	std::string placeholder = "{{card_type}}";
+	message.replace(message.find(placeholder), placeholder.length(), deck_type);
+	std::cout << message << std::endl;
+	
+	Card card;
+	if (deck_type == "Chance") {
+		card = chance_deck_.DrawCard();
+	} else if (deck_type == "Community Chest") {
+		card = community_deck_.DrawCard();
+	}
+
+	std::cout << "# \"" << card.GetDescription() << "\"" << std::endl;
+
+	if (card.GetType() == "Advance") {
+		int position = card.GetValue().first;
+		MovePlayerAt(player, position);
+		return 2;
+	}
+	if (card.GetType() == "Advance Nearest") {
+		int destination_type = card.GetValue().first;
+		multiplier = card.GetValue().second;
+		int min_distance = board_.GetBoardSize();
+		int destination_idx = -1;
+		if (destination_type == 8584) {
+			// 8584 == UT (ascii)
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Utility*>(board_.GetTileAt(i).get()) != nullptr) {
+					int distance = i - player.GetPosition();
+					if (distance < 0) {
+						distance += board_.GetBoardSize();
+					}
+					if (distance < min_distance) {
+						min_distance = distance;
+						destination_idx = i;
+					}
+				}
+			}
+		} else if (destination_type == 8282) {
+			// 8282 == RR (ascii)
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Railroad*>(board_.GetTileAt(i).get()) != nullptr) {
+					int distance = i - player.GetPosition();
+					if (distance < 0) {
+						distance += board_.GetBoardSize();
+					}
+					if (distance < min_distance) {
+						min_distance = distance;
+						destination_idx = i;
+					}
+				}
+			}
+		}
+		if (destination_idx != -1) {
+			MovePlayerAt(player, destination_idx);
+			HandlePlayerArrivalAtTile(player, board_.GetTileAt(destination_idx).get(), multiplier);
+			return 2;
+		}
+	}
+	if (card.GetType() == "Balance") {
+		int amount = card.GetValue().first;
+		player.AddBalance(amount);
+		return 0;
+	}
+	if (card.GetType() == "Balance All") {
+		int amount = card.GetValue().first;
+		for (auto &other_player : players_) {
+			if (other_player.GetName() != player.GetName()) {
+				player.AddBalance(amount);
+				other_player.AddBalance(-amount);
+			}
+		}
+		return 0;
+	}
+	if (card.GetType() == "Get Out Of Jail") {
+		player.AddGetOutOfJailCard();
+		return 0;
+	}
+	if (card.GetType() == "Go To Jail") {
+		MovePlayerToJail(player);
+		return 1;
+	}
+	if (card.GetType() == "Move") {
+		int amount = card.GetValue().first;
+		MovePlayerBy(player, amount);
+		return 2;
+	}
+	if (card.GetType() == "Repairs") {
+		int house_cost = card.GetValue().first;
+		int hotel_cost = card.GetValue().second;
+		int total_cost = 0;
+		
+		for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+			Tile *tile = board_.GetTileAt(i).get();
+			if (dynamic_cast<Property*>(tile) != nullptr) {
+				Property *property = dynamic_cast<Property*>(tile);
+				if (property->GetOwner() == player.GetName()) {
+					int house_count = property->GetTileLevel() - 1;
+					if (house_count == 5) {
+						total_cost += hotel_cost;
+					} else {
+						total_cost += house_count * house_cost;
+					}
+				}
+			}
+		}
+
+		player.AddBalance(-total_cost);
+		return 0;
+	}
+	else {
+		return 0;
 	}
 }
 
@@ -397,6 +893,8 @@ void Game::PrintTurnStart(const Player &player)
 	std::string message = game_locales_["turn_start"].get<std::string>();
 	std::string placeholder = "{{player}}";
 	message.replace(message.find(placeholder), placeholder.length(), player.GetName());
+	placeholder = "{{balance}}";
+	message.replace(message.find(placeholder), placeholder.length(), std::to_string(player.GetBalance()));
 	std::cout << message << std::endl;
 }
 
@@ -423,6 +921,12 @@ void Game::PrintOptionRollDice()
 void Game::PrintOptionQuitGame()
 {
 	std::string message = game_locales_["option_quit_game"].get<std::string>();
+	std::cout << message << std::endl;
+}
+
+void Game::PrintOptionPrintBoard()
+{
+	std::string message = game_locales_["option_print_board"].get<std::string>();
 	std::cout << message << std::endl;
 }
 
@@ -460,6 +964,46 @@ void Game::PrintOptionSellHouse()
 	std::cout << message << std::endl;
 }
 
+void Game::PrintOptionEndTurn()
+{
+	std::string message = game_locales_["option_end_turn"].get<std::string>();
+	std::cout << message << std::endl;
+}
+
+void Game::PrintOptionJailRoll()
+{
+	std::string message = game_locales_["option_jail_try_double"].get<std::string>();
+	std::cout << message << std::endl;
+}
+
+void Game::PrintOptionJailUseCard(const Player &player)
+{
+	std::string message = game_locales_["option_jail_use_card"].get<std::string>();
+	std::string placeholder = "{{cards}}";
+	message.replace(message.find(placeholder), placeholder.length(), std::to_string(player.GetGetOutOfJailCardsCount()));
+	std::cout << message << std::endl;
+}
+
+void Game::PrintOptionJailPay()
+{
+	std::string message = game_locales_["option_jail_pay_fine"].get<std::string>();
+	std::string placeholder = "{{fine}}";
+	message.replace(message.find(placeholder), placeholder.length(), std::to_string(board_.GetBailValue()));
+	std::cout << message << std::endl;
+}
+
+void Game::PrintPlayerDoomedInJail(const Player &player)
+{
+	std::string message = game_locales_["turn_jail_broke"].get<std::string>();
+	std::string placeholder = "{{player}}";
+	message.replace(message.find(placeholder), placeholder.length(), player.GetName());
+	placeholder = "{{bail}}";
+	message.replace(message.find(placeholder), placeholder.length(), std::to_string(board_.GetBailValue()));
+	placeholder = "{{nl}}";
+	message.replace(message.find(placeholder), placeholder.length(), "\n");
+	std::cout << message << std::endl;
+}
+
 // Action methods
 std::pair<int, int> Game::ActionRollDice()
 {
@@ -473,11 +1017,6 @@ std::pair<int, int> Game::ActionRollDice()
 	message.replace(message.find(placeholder), placeholder.length(), std::to_string(dice_values.first + dice_values.second));
 	std::cout << message << std::endl;
 
-	if (dice_values.first == dice_values.second) {
-		message = game_locales_["action_roll_dice_double"].get<std::string>();
-		std::cout << message << std::endl;
-	}
-
 	return dice_values;
 }
 
@@ -489,7 +1028,6 @@ bool Game::ActionQuitGame(Player &player)
 	char quit;
 	std::cin >> quit;
 	quit = std::tolower(quit);
-	std::cout << std::endl;
 
 	ClearScreen();
 	std::cout << board_;
@@ -541,13 +1079,71 @@ void Game::ActionBuyTile(Player &player)
 	std::cout << message;
 	char confirm;
 	std::cin >> confirm;
-	confirm = std::tolower(confirm);
-	std::cout << std::endl;
 
 	if (confirm == 'y') {
 		player.AddBalance(-tile->GetTileCost());
 		tile->SetOwner(player.GetName());
-		std::cout << game_locales_["action_buy_tile_success"].get<std::string>() << std::endl;
+		message = game_locales_["action_buy_tile_success"].get<std::string>();
+		placeholder = "{{tile_name}}";
+		message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
+		placeholder = "{{tile_price}}";
+		message.replace(message.find(placeholder), placeholder.length(), std::to_string(tile->GetTileCost()));
+		std::cout << message << std::endl;
+		
+		if (dynamic_cast<Property*>(tile) != nullptr) {
+			Property *property = dynamic_cast<Property*>(tile);
+			bool all_colour = true;
+			std::vector<int> colour_group;
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Property*>(board_.GetTileAt(i).get()) != nullptr) {
+					Property *other_property = dynamic_cast<Property*>(board_.GetTileAt(i).get());
+					if (other_property->GetColourType() == property->GetColourType()) {
+						colour_group.push_back(i);
+						if (other_property->GetOwner() != player.GetName()) {
+							all_colour = false;
+						}
+					}
+				}
+			}
+			if (all_colour == true) {
+				for (size_t i = 0; i < colour_group.size(); ++i) {
+					Property *other_property = dynamic_cast<Property*>(board_.GetTileAt(colour_group[i]).get());
+					other_property->SetTileLevel(std::max(1, other_property->GetTileLevel()));
+				}
+			}
+		} else if (dynamic_cast<Railroad*>(tile) != nullptr) {
+			int owned_railroads = 0;
+			std::vector<int> railroad_group;
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Railroad*>(board_.GetTileAt(i).get()) != nullptr) {
+					Railroad *railroad = dynamic_cast<Railroad*>(board_.GetTileAt(i).get());
+					if (railroad->GetOwner() == player.GetName()) {
+						++owned_railroads;
+						railroad_group.push_back(i);
+					}
+				}
+			}
+			for (size_t i = 0; i < railroad_group.size(); ++i) {
+				Railroad *railroad = dynamic_cast<Railroad*>(board_.GetTileAt(railroad_group[i]).get());
+				railroad->SetTileLevel(std::max(owned_railroads - 1, 0));
+			}
+		} else if (dynamic_cast<Utility*>(tile) != nullptr) {
+			int owned_utilities = 0;
+			std::vector<int> utility_group;
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Utility*>(board_.GetTileAt(i).get()) != nullptr) {
+					Utility *utility = dynamic_cast<Utility*>(board_.GetTileAt(i).get());
+					if (utility->GetOwner() == player.GetName()) {
+						++owned_utilities;
+						utility_group.push_back(i);
+					}
+				}
+			}
+			for (size_t i = 0; i < utility_group.size(); ++i) {
+				Utility *utility = dynamic_cast<Utility*>(board_.GetTileAt(utility_group[i]).get());
+				utility->SetTileLevel(std::max(owned_utilities - 1, 0));
+			}
+		}
 	} else if (confirm == 'n') {
 		std::cout << game_locales_["action_buy_tile_cancel"].get<std::string>() << std::endl;
 	} else {
@@ -564,8 +1160,7 @@ void Game::ActionSellTile(Player &player)
 
 	int option;
 	std::cin >> option;
-	std::cout << std::endl;
-	if (option < 1 || option > board_.GetBoardSize()) {
+	if (option < 1 || option > static_cast<int>(board_.GetBoardSize())) {
 		std::cout << game_locales_["tile_illegal"].get<std::string>() << std::endl;
 		return;
 	}
@@ -582,7 +1177,19 @@ void Game::ActionSellTile(Player &player)
 		return;
 	}
 
-	std::cout << game_locales_["action_sell_tile_confirm"].get<std::string>() << std::endl;
+	for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+		if (board_.GetTileAt(i)->GetOwner() == tile->GetName()) {
+			if (dynamic_cast<Property*>(board_.GetTileAt(i).get()) != nullptr) {
+				Property *property = dynamic_cast<Property*>(board_.GetTileAt(i).get());
+				if (property->GetTileLevel() >= 2) {
+					std::cout << game_locales_["tile_illegal_has_houses_color"].get<std::string>() << std::endl;
+					return;
+				}
+			}
+		}
+	}
+
+	message = game_locales_["action_sell_tile_confirm"].get<std::string>();
 	placeholder = "{{tile_name}}";
 	message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
 	placeholder = "{{tile_price}}";
@@ -592,17 +1199,60 @@ void Game::ActionSellTile(Player &player)
 	char confirm;
 	std::cin >> confirm;
 	confirm = std::tolower(confirm);
-	std::cout << std::endl;
 
 	if (confirm == 'y') {
 		player.AddBalance(tile->GetTileCost());
 		tile->SetOwner(board_.GetBankName());
-		std::cout << game_locales_["action_sell_tile_success"].get<std::string>() << std::endl;
+		message = game_locales_["action_sell_tile_success"].get<std::string>();
 		placeholder = "{{tile_name}}";
 		message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
 		placeholder = "{{tile_price}}";
 		message.replace(message.find(placeholder), placeholder.length(), std::to_string(tile->GetTileCost()));
 		std::cout << message << std::endl;
+
+		if (dynamic_cast<Property*>(tile) != nullptr) {
+			Property *property = dynamic_cast<Property*>(tile);
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Property*>(board_.GetTileAt(i).get()) != nullptr) {
+					Property *other_property = dynamic_cast<Property*>(board_.GetTileAt(i).get());
+					if (other_property->GetColourType() == property->GetColourType()) {
+						other_property->SetTileLevel(0);
+					}
+				}
+			}
+		} else if (dynamic_cast<Railroad*>(tile) != nullptr) {
+			int owned_railroads = 0;
+			std::vector<int> railroad_group;
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Railroad*>(board_.GetTileAt(i).get()) != nullptr) {
+					Railroad *railroad = dynamic_cast<Railroad*>(board_.GetTileAt(i).get());
+					if (railroad->GetOwner() == player.GetName()) {
+						++owned_railroads;
+						railroad_group.push_back(i);
+					}
+				}
+			}
+			for (size_t i = 0; i < railroad_group.size(); ++i) {
+				Railroad *railroad = dynamic_cast<Railroad*>(board_.GetTileAt(railroad_group[i]).get());
+				railroad->SetTileLevel(std::max(owned_railroads - 1, 0));
+			}
+		} else if (dynamic_cast<Utility*>(tile) != nullptr) {
+			int owned_utilities = 0;
+			std::vector<int> utility_group;
+			for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
+				if (dynamic_cast<Utility*>(board_.GetTileAt(i).get()) != nullptr) {
+					Utility *utility = dynamic_cast<Utility*>(board_.GetTileAt(i).get());
+					if (utility->GetOwner() == player.GetName()) {
+						++owned_utilities;
+						utility_group.push_back(i);
+					}
+				}
+			}
+			for (size_t i = 0; i < utility_group.size(); ++i) {
+				Utility *utility = dynamic_cast<Utility*>(board_.GetTileAt(utility_group[i]).get());
+				utility->SetTileLevel(std::max(owned_utilities - 1, 0));
+			}
+		}
 	} else if (confirm == 'n') {
 		std::cout << game_locales_["action_sell_tile_cancel"].get<std::string>() << std::endl;
 	} else {
@@ -613,12 +1263,13 @@ void Game::ActionSellTile(Player &player)
 void Game::ActionBuyHouse(Player &player)
 {
 	std::string message = game_locales_["action_buy_house"].get<std::string>();
+	std::string placeholder = "{{board_size}}";
+	message.replace(message.find(placeholder), placeholder.length(), std::to_string(board_.GetBoardSize()));
 	std::cout << message;
 
 	int option;
 	std::cin >> option;
-	std::cout << std::endl;
-	if (option < 1 || option > board_.GetBoardSize()) {
+	if (option < 1 || option > static_cast<int>(board_.GetBoardSize())) {
 		std::cout << game_locales_["tile_illegal"].get<std::string>() << std::endl;
 		return;
 	}
@@ -630,21 +1281,33 @@ void Game::ActionBuyHouse(Player &player)
 		return;
 	}
 
-	if (GetHousesOnTile(tile) > 4) {
+	Property *property = dynamic_cast<Property*>(tile);
+
+	if (property == nullptr) {
+		std::cout << game_locales_["tile_illegal_not_property"].get<std::string>() << std::endl;
+		return;
+	}
+
+	if (property->GetTileLevel() > 5) {
 		std::cout << game_locales_["tile_illegal_full_houses"].get<std::string>() << std::endl;
 		return;
 	}
 
-	int house_cost = GetHouseCost(tile);
+	if (property->GetTileLevel() == 0) {
+		std::cout << game_locales_["tile_illegal_not_owned_color"].get<std::string>() << std::endl;
+		return;
+	}
+
+	int house_cost = GetHouseCost(property);
 
 	if (CanAffordTransaction(player, house_cost) == false) {
 		std::cout << game_locales_["tile_illegal_balance"].get<std::string>() << std::endl;
 		return;
 	}
 
-	std::cout << game_locales_["action_buy_house_confirm"].get<std::string>() << std::endl;
-	std::string placeholder = "{{tile_name}}";
-	message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
+	message = game_locales_["action_buy_house_confirm"].get<std::string>();
+	placeholder = "{{tile_name}}";
+	message.replace(message.find(placeholder), placeholder.length(), property->GetName());
 	placeholder = "{{house_price}}";
 	message.replace(message.find(placeholder), placeholder.length(), std::to_string(house_cost));
 	std::cout << message;
@@ -652,11 +1315,10 @@ void Game::ActionBuyHouse(Player &player)
 	char confirm;
 	std::cin >> confirm;
 	confirm = std::tolower(confirm);
-	std::cout << std::endl;
 
 	if (confirm == 'y') {
 		player.AddBalance(-house_cost);
-		AddHouseToTile(tile, 1);
+		property->AddBuilding();
 		std::string message = game_locales_["action_buy_house_success"].get<std::string>();
 		std::string placeholder = "{{tile_name}}";
 		message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
@@ -673,12 +1335,13 @@ void Game::ActionBuyHouse(Player &player)
 void Game::ActionSellHouse(Player &player)
 {
 	std::string message = game_locales_["action_sell_house"].get<std::string>();
+	std::string placeholder = "{{board_size}}";
+	message.replace(message.find(placeholder), placeholder.length(), std::to_string(board_.GetBoardSize()));
 	std::cout << message;
 
 	int option;
 	std::cin >> option;
-	std::cout << std::endl;
-	if (option < 1 || option > board_.GetBoardSize()) {
+	if (option < 1 || option > static_cast<int>(board_.GetBoardSize())) {
 		std::cout << game_locales_["tile_illegal"].get<std::string>() << std::endl;
 		return;
 	}
@@ -690,16 +1353,23 @@ void Game::ActionSellHouse(Player &player)
 		return;
 	}
 
-	if (GetHousesOnTile(tile) < 1) {
+	Property *property = dynamic_cast<Property*>(tile);
+
+	if (property == nullptr) {
+		std::cout << game_locales_["tile_illegal_not_property"].get<std::string>() << std::endl;
+		return;
+	}
+
+	if (property->GetTileLevel() < 2) {
 		std::cout << game_locales_["tile_illegal_no_houses"].get<std::string>() << std::endl;
 		return;
 	}
 
-	int house_cost = GetHouseCost(tile) / 2;
+	int house_cost = GetHouseCost(property) / 2;
 
-	std::cout << game_locales_["action_sell_house_confirm"].get<std::string>() << std::endl;
-	std::string placeholder = "{{tile_name}}";
-	message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
+	message = game_locales_["action_sell_house_confirm"].get<std::string>();
+	placeholder = "{{tile_name}}";
+	message.replace(message.find(placeholder), placeholder.length(), property->GetName());
 	placeholder = "{{house_price}}";
 	message.replace(message.find(placeholder), placeholder.length(), std::to_string(house_cost));
 	std::cout << message;
@@ -707,14 +1377,13 @@ void Game::ActionSellHouse(Player &player)
 	char confirm;
 	std::cin >> confirm;
 	confirm = std::tolower(confirm);
-	std::cout << std::endl;
 
 	if (confirm == 'y') {
 		player.AddBalance(house_cost);
-		AddHouseToTile(tile, -1);
+		property->AddBuilding(-1);
 		std::string message = game_locales_["action_sell_house_success"].get<std::string>();
 		std::string placeholder = "{{tile_name}}";
-		message.replace(message.find(placeholder), placeholder.length(), tile->GetName());
+		message.replace(message.find(placeholder), placeholder.length(), property->GetName());
 		placeholder = "{{house_price}}";
 		message.replace(message.find(placeholder), placeholder.length(), std::to_string(house_cost));
 		std::cout << message << std::endl;
@@ -723,6 +1392,27 @@ void Game::ActionSellHouse(Player &player)
 	} else {
 		PrintOptionIllegal();
 	}
+}
+
+bool Game::ActionEndTurn(Player &player)
+{
+	std::string message, placeholder;
+	if (player.GetBalance() < 0) {
+		message = game_locales_["action_end_turn_warn_balance"].get<std::string>();
+		std::cout << message << std::endl;
+	}
+
+	message = game_locales_["action_end_turn_confirm"].get<std::string>();
+	std::cout << message;
+
+	char confirm;
+	std::cin >> confirm;
+	confirm = std::tolower(confirm);
+
+	if (confirm == 'y') {
+		return true;
+	}
+	return false;
 }
 
 // Clear screen

@@ -10,6 +10,8 @@ public:
 	int GetTileLevel() const;
 	std::array<int, 2> GetDiceMultiplier() const;
 
+	void SetTileLevel(const int level);
+
 	void Print(std::ostream &os) const;
 
 private:

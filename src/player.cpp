@@ -1,7 +1,7 @@
 #include "player.hpp"
 
 Player::Player(const std::string& name, const int balance)
-	: name_(name), balance_(balance), position_(0), jail_turns_(0), get_out_of_jail_cards_count_(0), double_count_(0), is_in_jail_(false) {}
+	: is_in_jail_(false), name_(name), balance_(balance), position_(0), jail_turns_(0), get_out_of_jail_cards_count_(0), double_count_(0) {}
 
 bool Player::IsInJail() const
 {
@@ -57,22 +57,22 @@ void Player::GetOutOfJail()
 	jail_turns_ = 0;
 }
 
-void Player::AddBalance(int amount)
+void Player::AddBalance(const int amount)
 {
 	balance_ += amount;
 }
 
-void Player::AddJailTurns(int amount)
+void Player::AddJailTurns(const int amount)
 {
 	jail_turns_ += amount;
 }
 
-void Player::AddGetOutOfJailCard(int amount)
+void Player::AddGetOutOfJailCard(const int amount)
 {
 	get_out_of_jail_cards_count_ += amount;
 }
 
-void Player::AddDoubleCount(int amount)
+void Player::AddDoubleCount(const int amount)
 {
 	double_count_ += amount;
 }
