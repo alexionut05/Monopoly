@@ -74,7 +74,7 @@ public:
 
 	// Action methods
 	std::pair<int, int> ActionRollDice();
-	bool ActionQuitGame(Player &player);
+	bool ActionQuitGame(const Player &player);
 	void ActionInfo();
 	void ActionBuyTile(Player &player);
 	void ActionSellTile(Player &player);

@@ -1027,7 +1027,7 @@ std::pair<int, int> Game::ActionRollDice()
 	return dice_values;
 }
 
-bool Game::ActionQuitGame(Player &player)
+bool Game::ActionQuitGame(const Player &player)
 {
 	std::string message = game_locales_["action_quit_game"].get<std::string>();
 	std::cout << message;
