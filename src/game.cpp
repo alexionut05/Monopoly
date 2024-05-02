@@ -1429,11 +1429,7 @@ bool Game::ActionEndTurn(const Player &player)
 // !il voi lasa asa ca sa pot lucra si testa
 void Game::ClearScreen()
 {
-	#ifdef WINDOWS
-    		std::system("cls");
-	#else
-		std::system ("clear");
-	#endif
+	std::cout << "\x1B[2J\x1B[H";
 }
 
 // Operator Overloads (nu stiu ce altceva sa pun aici; pt tema 1)

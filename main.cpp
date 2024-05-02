@@ -18,7 +18,7 @@ int main()
 	std::ifstream system_locales_file("locales/" + language + "/system.json");
 	if (!system_locales_file.is_open()) {
 		std::cerr << "Error: system locales file not found." << std::endl;
-		exit(2);
+		exit(1);
 	}
 	nlohmann::json system_locales;
 	system_locales_file >> system_locales;
