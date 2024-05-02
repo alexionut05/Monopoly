@@ -8,6 +8,10 @@ Board::Board(const int bail_value, const std::string &bank_name, const std::stri
 	}
 
 	std::ifstream file(tiles_file);
+	if (!file.is_open()) {
+		std::cerr << "Error: tiles file not found." << std::endl;
+		exit(1);
+	}
 	tiles_data_ = nlohmann::json::parse(file);	
 	file.close();
 }
