@@ -35,7 +35,7 @@ public:
 	void InitPlayers();
 	bool IsPlayerNameValid(const std::string &name) const;
 	void AddPlayer(const Player &player);
-	void RemovePlayer(Player &player);
+	void RemovePlayer(const Player &player);
 	bool PromptPlayerReady(const Player &player);
 	int FindPlayerByName(const std::string &name) const;
 
@@ -80,7 +80,7 @@ public:
 	void ActionSellTile(Player &player);
 	void ActionBuyHouse(Player &player);
 	void ActionSellHouse(Player &player);
-	bool ActionEndTurn(Player &player);
+	bool ActionEndTurn(const Player &player);
 
 	// Clear screen
 	void ClearScreen();

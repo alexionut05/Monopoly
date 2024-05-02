@@ -1,6 +1,6 @@
 #include "tile.hpp"
 
-Tile::Tile(const int tile_cost, const std::string name, const std::string owner)
+Tile::Tile(const int &tile_cost, const std::string &name, const std::string &owner)
 	: tile_cost_(tile_cost), name_(name), owner_(owner), players_here_({}) {}
 
 Tile::~Tile() {}

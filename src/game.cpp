@@ -531,7 +531,7 @@ void Game::AddPlayer(const Player &player)
 	players_.push_back(player);
 }
 
-void Game::RemovePlayer(Player &player)
+void Game::RemovePlayer(const Player &player)
 {
 	std::string message = player_locales_["remove_player"].get<std::string>();
 	std::string placeholder = "{{player}}";
@@ -1401,11 +1401,13 @@ void Game::ActionSellHouse(Player &player)
 	}
 }
 
-bool Game::ActionEndTurn(Player &player)
+bool Game::ActionEndTurn(const Player &player)
 {
 	std::string message, placeholder;
 	if (player.GetBalance() < 0) {
 		message = game_locales_["action_end_turn_warn_balance"].get<std::string>();
+		placeholder = "{{balance}}";
+		message.replace(message.find(placeholder), placeholder.length(), std::to_string(-player.GetBalance()));
 		std::cout << message << std::endl;
 	}
 

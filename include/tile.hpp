@@ -12,7 +12,7 @@
 
 class Tile {
 public:
-	Tile(const int tile_cost, const std::string name, const std::string owner);
+	Tile(const int &tile_cost, const std::string &name, const std::string &owner);
 	virtual ~Tile();
 
 	int GetTileCost() const;
