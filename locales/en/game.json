@@ -1,5 +1,5 @@
 {
-	"welcome": "Welcome to Monopoly! Thank you for choosing to play this.",
+	"welcome": "Welcome to Monopoly! Please note that some features are still work in progress. Consult the official Monopoly ruleset.",
 	"winner": "Congratulations, {{winner}}! You have won the game!",
 	"thanks": "Thank you for playing Monopoly!{{nl}}Make sure to star the project on GitHub if you enjoyed it!",
 	"blank": "####################################################################################################",
