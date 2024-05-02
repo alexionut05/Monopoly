@@ -4,7 +4,7 @@
 Game::Game(const std::string &language, const int dice_min, const int dice_max, const int player_start_balance, 
 	const size_t min_players, const size_t max_players, const size_t min_name_length, const size_t max_name_length, 
 	const int chance_deck_size, const int community_deck_size, const int bail_value, const std::string &bank_name)
-	: board_(bail_value, bank_name, "../locales/" + language + "/tiles.json"), chance_deck_(language, "chance", chance_deck_size),
+	: board_(bail_value, bank_name, "locales/" + language + "/tiles.json"), chance_deck_(language, "chance", chance_deck_size),
 	community_deck_(language, "community_chest", community_deck_size), dice_(dice_min, dice_max), players_({}),
 	language_(language), player_start_balance_(player_start_balance),
 	min_players_(min_players), max_players_(max_players), min_name_length_(min_name_length), max_name_length_(max_name_length) {}
@@ -437,7 +437,7 @@ void Game::PlayTurnInJail(Player &player)
 void Game::InitLocales()
 {
 	// Load game locales
-	std::ifstream file("../locales/" + language_ + "/game.json");
+	std::ifstream file("locales/" + language_ + "/game.json");
 	if (!file.is_open()) {
 		std::cerr << "Error: Could not open game locales file." << std::endl;
 		exit(1);
@@ -446,7 +446,7 @@ void Game::InitLocales()
 	file.close();
 
 	// Load player locales
-	file.open("../locales/" + language_ + "/player.json");
+	file.open("locales/" + language_ + "/player.json");
 	if (!file.is_open()) {
 		std::cerr << "Error: Could not open player locales file." << std::endl;
 		exit(1);

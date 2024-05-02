@@ -3,7 +3,7 @@
 Deck::Deck(const std::string &language, const std::string &deck_type, const int cards_count)
 	: cards_count_(cards_count)
 {
-	std::ifstream file("../locales/" + language + "/" + deck_type + "_card.json");
+	std::ifstream file("locales/" + language + "/" + deck_type + "_card.json");
 	if (!file.is_open()) {
 		std::cerr << "Error: " << deck_type << " card file not found." << std::endl;
 		exit(1);
