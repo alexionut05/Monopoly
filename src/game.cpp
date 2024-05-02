@@ -1425,11 +1425,9 @@ bool Game::ActionEndTurn(const Player &player)
 }
 
 // Clear screen
-// !voi incerca sa invat sa folosesc rlutil pt primul release; momentan 
-// !il voi lasa asa ca sa pot lucra si testa
 void Game::ClearScreen()
 {
-	std::cout << "\x1B[2J\x1B[H";
+	rlutil::cls();
 }
 
 // Operator Overloads (nu stiu ce altceva sa pun aici; pt tema 1)

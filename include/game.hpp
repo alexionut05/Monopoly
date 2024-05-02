@@ -12,6 +12,7 @@
 #include <vector>
 
 #include <nlohmann/json.hpp>
+#include <rlutil/rlutil.h>
 #include <termcolor/termcolor.hpp>
 
 class Game {
