@@ -30,6 +30,7 @@ env:
   GEN_DIR: "generated"
   INCLUDE_DIR: "include"
   SRC_DIR: "src"
+  LOCALES_DIR: "locales"
 
 defaults:
   run:
