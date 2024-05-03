@@ -129,6 +129,8 @@ if(GITHUB_ACTIONS)
   target_compile_definitions(${PROJECT_NAME} PRIVATE GITHUB_ACTIONS)
 endif()
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE TERMCOLOR_USE_ANSI_ESCAPE_SEQUENCES=1 RLUTIL_USE_ANSI=1)
+
 ###############################################################################
 
 if(WARNINGS_AS_ERRORS)
