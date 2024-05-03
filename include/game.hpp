@@ -89,7 +89,7 @@ public:
 	// Operator Overloads	
 	friend std::ostream &operator<<(std::ostream &os, const Game &game);
 
-	int MaxInt(const int a, const int b) const;
+	// int MaxInt(const int a, const int b) const;
 
 private:
 	Board board_;
