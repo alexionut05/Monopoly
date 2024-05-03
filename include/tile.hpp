@@ -1,6 +1,8 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
+#define NOMINMAX
+
 #include <algorithm>
 #include <array>
 #include <iomanip>

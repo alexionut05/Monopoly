@@ -1,6 +1,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#define NOMINMAX
+
 #include "board.hpp"
 #include "deck.hpp"
 #include "dice.hpp"
