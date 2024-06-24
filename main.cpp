@@ -37,6 +37,7 @@ int main()
 	std::string bank_name = system_locales["bank_name"].get<std::string>();
 
 	Game &game = Game::GetInstance(language, dice_min, dice_max, player_start_balance, min_players, max_players, min_name_length, max_name_length, chance_deck_size, community_deck_size, bail_value, bank_name);
+	(void)game;
 
 	return 0;
 }
