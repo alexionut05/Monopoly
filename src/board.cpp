@@ -18,9 +18,10 @@ Board::Board(const int bail_value, const std::string &bank_name, const std::stri
 // Board methods
 void Board::InitBoard()
 {
+	TileFactory tile_factory(tiles_data_, bank_name_);
 	for (size_t i = 0; i < tiles_.size(); ++i) {
 		std::string type = tiles_data_["type"][i].get<std::string>();
-		tiles_[i] = TileFactory::CreateTile(i, type, tiles_data_, bank_name_);
+		tiles_[i] = tile_factory.CreateTile(i, type);
 	}
 }
 

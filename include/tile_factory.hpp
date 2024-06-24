@@ -18,11 +18,19 @@
 
 class TileFactory {
 public:
-	static std::unique_ptr<Tile> CreateTile
+	TileFactory
+		( const nlohmann::json &tile_data
+		, const std::string &bank_name
+		);
+
+	std::unique_ptr<Tile> CreateTile
 		( const int idx
 		, const std::string &type
-		, const nlohmann::json &tile_data
-		, const std::string &bank_name );
+		);
+
+private:
+	const nlohmann::json &tile_data_;
+	const std::string &bank_name_;
 };
 
 #endif // "TILE_FACTORY_HPP"
