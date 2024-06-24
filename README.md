@@ -29,26 +29,26 @@ Un joc de Monopoly in comanda de linie.
 
 #### Cerințe
 - [X] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
-- [ ] moșteniri:
+- [X] moșteniri:
   - minim o clasă de bază și **3 clase derivate**
   - ierarhia trebuie să fie cu bază proprie, nu derivată dintr-o clasă predefinită
   - [X] clasă cu atribut de tip pointer la o clasă de bază cu derivate (src/game.cpp)
-  - [ ] funcții virtuale (pure) apelate prin pointeri de bază din clasa care conține atributul de tip pointer de bază
+  - [X] funcții virtuale (pure) apelate prin pointeri de bază din clasa care conține atributul de tip pointer de bază
     - minim o funcție virtuală va fi **specifică temei** (e.g. nu simple citiri/afișări)
     - constructori virtuali (clone): sunt necesari, dar nu se consideră funcții specifice temei
   - [X] apelarea constructorului din clasa de bază din constructori din derivate (src/tiles/*.cpp)
   - [X] smart pointers (recomandat, opțional) (src/board.cpp)
   - [X] `dynamic_cast`/`std::dynamic_pointer_cast` pentru downcast cu sens (src/game.cpp)
 - [X] suprascris cc/op= pentru copieri/atribuiri corecte, copy and swap (src/card.cpp)
-- [ ] excepții
-  - [ ] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim **3** clase pentru erori specifice
-  - [ ] utilizare cu sens: de exemplu, `throw` în constructor (sau funcție care întoarce un obiect), `try`/`catch` în `main`
-- [ ] funcții și atribute `static` (voi "staticiza" inainte de al doilea release)
-- [ ] STL (nu stiu sigur daca se pun ca STL anumite functionalitati, un feedback ar fi apreciat)
+- [X] excepții
+  - [X] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim **3** clase pentru erori specifice
+  - [X] utilizare cu sens: de exemplu, `throw` în constructor (sau funcție care întoarce un obiect), `try`/`catch` în `main`
+- [ ] funcții și atribute `static` (nu prea poate fi folosit imo)
+- [X] STL (nu stiu sigur daca se pun ca STL anumite functionalitati, un feedback ar fi apreciat)
 - [X] cât mai multe `const`
-- [ ] la sfârșit: commit separat cu adăugarea unei noi clase derivate fără a modifica restul codului, **pe lângă cele 3 derivate deja adăugate**
+- [ ] la sfârșit: commit separat cu adăugarea unei noi clase derivate fără a modifica restul codului, **pe lângă cele 3 derivate deja adăugate** (?)
   - noua derivată nu poate fi una existentă care a fost ștearsă și adăugată din nou
-- [ ] tag de `git`: de exemplu `v0.2`
+- [X] tag de `git`: de exemplu `v0.2`
 
 ## Tema 3
 
@@ -61,5 +61,7 @@ Un joc de Monopoly in comanda de linie.
 
 ## Resurse
 https://github.com/nlohmann/json
+
 https://github.com/ikalnytskyi/termcolor
+
 https://github.com/tapio/rlutil
