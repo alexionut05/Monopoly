@@ -47,3 +47,13 @@ std::ostream &operator<<(std::ostream &out, const Card &card)
 
 	return out;
 }
+
+// asa s-ar face daca nu erau const, dar as dori sa le pastrez const
+// le las just in case
+//
+// void std::swap(Card &first, Card &second) noexcept
+// {
+// 	std::swap(first.description_, second.description_);
+// 	std::swap(first.type_, second.type_);
+// 	std::swap(first.values_, second.values_);
+// }
