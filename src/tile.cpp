@@ -40,6 +40,11 @@ void Tile::RemovePlayerHere(const std::string &player_name)
 	players_here_.erase(std::remove(players_here_.begin(), players_here_.end(), player_name), players_here_.end());
 }
 
+void Tile::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+}
+
 void Tile::Print(std::ostream &os) const
 {
 	os << " Wtf? This isn't supposed to happen!" << std::endl;

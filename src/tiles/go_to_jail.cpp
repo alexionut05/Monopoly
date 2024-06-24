@@ -3,6 +3,11 @@
 GoToJail::GoToJail(const std::string &name, const std::string &owner)
 	: Tile(0, name, owner) {}
 
+void GoToJail::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+}
+
 void GoToJail::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

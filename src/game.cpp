@@ -574,7 +574,7 @@ void Game::RemovePlayer(const Player &player)
 
 	for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
 		if (board_.GetTileAt(i)->GetOwner() == removed_player_name) {
-			board_.InitTile(i);
+			board_.GetTileAt(i)->Reset(board_.GetBankName());
 		}
 	}
 

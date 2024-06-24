@@ -18,6 +18,12 @@ void Railroad::SetTileLevel(const int level)
 	tile_level_ = level;
 }
 
+void Railroad::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+	tile_level_ = 0;
+}
+
 void Railroad::Print(std::ostream &os) const
 {
 	os << termcolor::bold << termcolor::on_white << termcolor::color<255, 255, 255>;

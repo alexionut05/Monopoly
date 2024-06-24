@@ -13,6 +13,7 @@ public:
 	void RemovePlayerJailed(const std::string &player);
 	bool IsPlayerJailed(const std::string &player) const;
 	
+	void Reset(const std::string &bank_name) override;
 	void Print(std::ostream &os) const override;
 	
 private:

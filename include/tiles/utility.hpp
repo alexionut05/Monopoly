@@ -12,6 +12,7 @@ public:
 
 	void SetTileLevel(const int level);
 
+	void Reset(const std::string &bank_name) override;
 	void Print(std::ostream &os) const override;
 
 private:

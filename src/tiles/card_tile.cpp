@@ -3,6 +3,12 @@
 CardTile::CardTile(const std::string &name, const std::string &owner)
 	: Tile(0, name, owner) {}
 
+
+void CardTile::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+}
+
 void CardTile::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

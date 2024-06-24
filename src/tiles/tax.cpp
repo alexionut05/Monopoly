@@ -8,6 +8,11 @@ int Tax::GetTaxAmount() const
 	return tax_amount_;
 }
 
+void Tax::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+}
+
 void Tax::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

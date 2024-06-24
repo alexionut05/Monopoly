@@ -44,6 +44,7 @@ public:
 	void AddBuilding(const int amount = 1);
 	void SetTileLevel(const int level);
 
+	void Reset(const std::string &bank_name) override;
 	void Print(std::ostream &os) const override;
 	void SetPrintColour(std::ostream &os) const;
 

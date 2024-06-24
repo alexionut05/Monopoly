@@ -27,6 +27,7 @@ public:
 	void AddPlayerHere(const std::string &player_name);
 	void RemovePlayerHere(const std::string &player_name);
 
+	virtual void Reset(const std::string &bank_name) = 0;
 	virtual void Print(std::ostream &os) const = 0;
 
 	friend std::ostream &operator<<(std::ostream &out, const Tile &tile);

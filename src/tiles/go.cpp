@@ -8,6 +8,11 @@ int Go::GetPassGoAmount() const
 	return pass_go_amount_;
 }
 
+void Go::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+}
+
 void Go::Print(std::ostream &os) const
 {
 	os << termcolor::bold << termcolor::on_color<0, 0, 0>;

@@ -119,7 +119,8 @@ endfunction()
 add_executable(${PROJECT_NAME} main.cpp
     src/board.cpp src/card.cpp src/deck.cpp src/dice.cpp src/game.cpp src/player.cpp src/tile.cpp
     src/tiles/card_tile.cpp src/tiles/free_parking.cpp src/tiles/go_to_jail.cpp src/tiles/go.cpp src/tiles/jail.cpp src/tiles/property.cpp src/tiles/railroad.cpp src/tiles/tax.cpp src/tiles/utility.cpp
-    src/custom_except.cpp)
+    src/custom_except.cpp
+    src/tile_factory.cpp)
 
 ###############################################################################
 

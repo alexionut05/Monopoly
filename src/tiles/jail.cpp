@@ -18,6 +18,12 @@ bool Jail::IsPlayerJailed(const std::string &player) const
 	return std::find(players_jailed_.begin(), players_jailed_.end(), player) != players_jailed_.end();
 }
 
+void Jail::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+	players_jailed_.clear();
+}
+
 void Jail::Print(std::ostream &os) const
 {
 	os << termcolor::on_color<0, 0, 0> << termcolor::bold;

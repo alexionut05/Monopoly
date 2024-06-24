@@ -41,6 +41,12 @@ void Property::SetTileLevel(const int level)
 	tile_level_ = level;
 }
 
+void Property::Reset(const std::string &bank_name)
+{
+	owner_ = bank_name;
+	tile_level_ = 0;
+}
+
 void Property::Print(std::ostream &os) const
 {
 	os << termcolor::bold;
