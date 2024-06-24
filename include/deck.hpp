@@ -1,7 +1,8 @@
 #ifndef DECK_HPP
-#define DECK_HPP\
+#define DECK_HPP
 
 #include "card.hpp"
+#include "custom_except.hpp"
 #include <fstream>
 #include <iostream>
 #include <random>

@@ -4,6 +4,7 @@
 #define NOMINMAX
 
 #include "board.hpp"
+#include "custom_except.hpp"
 #include "deck.hpp"
 #include "dice.hpp"
 #include "player.hpp"
