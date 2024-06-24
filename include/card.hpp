@@ -19,6 +19,7 @@ public:
 	void swap(Card &other) noexcept;
 	Card &operator=(const Card &other);
 	friend std::ostream &operator<<(std::ostream &out, const Card &card);
+	// friend void std::swap(Card &first, Card &second) noexcept;
 
 private:
 	const std::string description_;

@@ -1,3 +1,4 @@
+#include "custom_except.hpp"
 #include "game.hpp"
 #include <fstream>
 #include <iostream>
@@ -7,18 +8,17 @@
 int main()
 {	
 	std::string language;
-	do {
-		std::cout << "Choose language (en): ";
-		std::cin >> language;
-		if (language != "en") {
-			std::cout << "Language not supported yet." << std::endl;
-		}
-	} while (language != "en");
+	std::cout << "Choose language (en): ";
+	std::cin >> language;
 
-	std::ifstream system_locales_file("locales/" + language + "/system.json");
+	if (language != "en") {
+		throw InvalidLanguage();
+	}
+
+	std::string system_locales_path = "locales/" + language + "/system.json";
+	std::ifstream system_locales_file(system_locales_path);
 	if (!system_locales_file.is_open()) {
-		std::cerr << "Error: system locales file not found." << std::endl;
-		exit(1);
+		throw FileNotFound(system_locales_path);
 	}
 	nlohmann::json system_locales;
 	system_locales_file >> system_locales;

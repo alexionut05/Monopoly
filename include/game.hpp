@@ -1,9 +1,10 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#define NOMINMAX
+#define NOMINMAX 1
 
 #include "board.hpp"
+#include "custom_except.hpp"
 #include "deck.hpp"
 #include "dice.hpp"
 #include "player.hpp"

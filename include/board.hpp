@@ -1,6 +1,7 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
+#include "custom_except.hpp"
 #include "tiles/card_tile.hpp"
 #include "tiles/free_parking.hpp"
 #include "tiles/go_to_jail.hpp"

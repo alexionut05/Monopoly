@@ -1,7 +1,7 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-#define NOMINMAX
+#define NOMINMAX 1
 
 #include <algorithm>
 #include <array>

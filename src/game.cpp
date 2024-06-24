@@ -437,19 +437,19 @@ void Game::PlayTurnInJail(Player &player)
 void Game::InitLocales()
 {
 	// Load game locales
-	std::ifstream file("locales/" + language_ + "/game.json");
+	std::string filepath = "locales/" + language_ + "/game.json";
+	std::ifstream file(filepath);
 	if (!file.is_open()) {
-		std::cerr << "Error: Could not open game locales file." << std::endl;
-		exit(1);
+		throw FileNotFound(filepath);
 	}
 	game_locales_ = nlohmann::json::parse(file);
 	file.close();
 
 	// Load player locales
-	file.open("locales/" + language_ + "/player.json");
+	filepath = "locales/" + language_ + "/player.json";
+	file.open(filepath);
 	if (!file.is_open()) {
-		std::cerr << "Error: Could not open player locales file." << std::endl;
-		exit(1);
+		throw FileNotFound(filepath);
 	}
 	player_locales_ = nlohmann::json::parse(file);
 	file.close();
@@ -481,10 +481,19 @@ void Game::InitPlayers()
 		message.replace(message.find(placeholder), placeholder.length(), std::to_string(i + 1));
 		std::string name;
 
-		do {
-			std::cout << message;
-			std::cin >> name;
-		} while (IsPlayerNameValid(name) == false);
+		std::cout << message;
+		std::cin >> name;
+
+		bool valid_name = IsPlayerNameValid(name);
+		try {
+			if (valid_name == false) {
+				throw DisallowedPlayerName();
+			}
+		} catch (DisallowedPlayerName &e) {
+			std::cout << e.what() << std::endl;
+			--i;
+			continue;
+		}
 
 		AddPlayer(Player(name, player_start_balance_));
 		MovePlayerAt(players_[i], 0, true);
