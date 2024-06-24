@@ -6,7 +6,7 @@
 
 class CustomException : public std::exception {
 public:
-	CustomException(const std::string &message);
+	explicit CustomException(const std::string &message);
 	const char *what() const noexcept override;
 
 private:
@@ -15,7 +15,7 @@ private:
 
 class FileNotFound : public CustomException {
 public:
-	FileNotFound(const std::string &filename);
+	explicit FileNotFound(const std::string &filename);
 };
 
 class InvalidLanguage : public CustomException {
