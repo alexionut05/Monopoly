@@ -1,5 +1,25 @@
 #include "game.hpp"
 
+// Game singleton
+Game &Game::GetInstance
+	( const std::string &language
+	, const int dice_min
+	, const int dice_max
+	, const int player_start_balance
+	, const size_t min_players
+	, const size_t max_players
+	, const size_t min_name_length
+	, const size_t max_name_length
+	, const int chance_deck_size
+	, const int community_deck_size
+	, const int bail_value
+	, const std::string &bank_name
+	)
+{
+	static Game instance(language, dice_min, dice_max, player_start_balance, min_players, max_players, min_name_length, max_name_length, chance_deck_size, community_deck_size, bail_value, bank_name);
+	return instance;
+}
+
 // Constructor
 Game::Game(const std::string &language, const int dice_min, const int dice_max, const int player_start_balance, 
 	const size_t min_players, const size_t max_players, const size_t min_name_length, const size_t max_name_length, 
@@ -7,7 +27,10 @@ Game::Game(const std::string &language, const int dice_min, const int dice_max, 
 	: board_(bail_value, bank_name, "locales/" + language + "/tiles.json"), chance_deck_(language, "chance", chance_deck_size),
 	community_deck_(language, "community_chest", community_deck_size), dice_(dice_min, dice_max), players_({}),
 	language_(language), player_start_balance_(player_start_balance),
-	min_players_(min_players), max_players_(max_players), min_name_length_(min_name_length), max_name_length_(max_name_length) {}
+	min_players_(min_players), max_players_(max_players), min_name_length_(min_name_length), max_name_length_(max_name_length)
+{
+	InitGame();
+}
 
 // Game methods
 void Game::InitGame()

@@ -20,6 +20,25 @@
 
 class Game {
 public:
+	Game(const Game&) = delete;
+	Game& operator=(const Game&) = delete;
+
+	static Game &GetInstance
+		( const std::string &language
+		, const int dice_min
+		, const int dice_max
+		, const int player_start_balance
+		, const size_t min_players
+		, const size_t max_players
+		, const size_t min_name_length
+		, const size_t max_name_length
+		, const int chance_deck_size
+		, const int community_deck_size
+		, const int bail_value
+		, const std::string &bank_name
+		);
+
+private:
 	// Constructor
 	Game(const std::string &language, const int dice_min, const int dice_max, const int player_start_balance, 
 		const size_t min_players, const size_t max_players, const size_t min_name_length, const size_t max_name_length, 
@@ -92,9 +111,7 @@ public:
 	// Operator Overloads	
 	friend std::ostream &operator<<(std::ostream &os, const Game &game);
 
-	// int MaxInt(const int a, const int b) const;
-
-private:
+	// Variables
 	Board board_;
 	Deck chance_deck_;
 	Deck community_deck_;

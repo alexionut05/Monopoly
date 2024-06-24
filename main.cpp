@@ -36,8 +36,7 @@ int main()
 	int bail_value = system_locales["bail_value"].get<int>();
 	std::string bank_name = system_locales["bank_name"].get<std::string>();
 
-	Game game(language, dice_min, dice_max, player_start_balance, min_players, max_players, min_name_length, max_name_length, chance_deck_size, community_deck_size, bail_value, bank_name);
-	game.InitGame();
+	Game &game = Game::GetInstance(language, dice_min, dice_max, player_start_balance, min_players, max_players, min_name_length, max_name_length, chance_deck_size, community_deck_size, bail_value, bank_name);
 
 	return 0;
 }
