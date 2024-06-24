@@ -484,10 +484,15 @@ void Game::InitPlayers()
 		std::cout << message;
 		std::cin >> name;
 
-		// pretty jank usage, im not really happy w/ it, dar o las pt cerinta
 		bool valid_name = IsPlayerNameValid(name);
-		if (valid_name == false) {
-			throw DisallowedPlayerName();
+		try {
+			if (valid_name == false) {
+				throw DisallowedPlayerName();
+			}
+		} catch (DisallowedPlayerName &e) {
+			std::cout << e.what() << std::endl;
+			--i;
+			continue;
 		}
 
 		AddPlayer(Player(name, player_start_balance_));
