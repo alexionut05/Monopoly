@@ -169,7 +169,7 @@ std::ostream& operator<<(std::ostream &os, const Board &board)
 		os << std::setw(2) << i << ". ";
 		tile->Print(os);
 		if (tile->GetPlayersHere().size() > 0) {
-			os << termcolor::italic << termcolor::grey;
+			os << termcolor::italic << termcolor::white;
 			os << "        ^ Here: ";
 			for (const auto &player : tile->GetPlayersHere()) {
 				if (dynamic_cast<Jail*>(tile.get())) {
