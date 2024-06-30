@@ -507,10 +507,18 @@ void Game::InitPlayers()
 		std::cout << message;
 		std::cin >> name;
 
-		do {
-			std::cout << message;
-			std::cin >> name;
-		} while (IsPlayerNameValid(name) == false);
+		// momentan o las asa, ca nu am nicio idee ce alta exceptie sa adaug in loc
+		// ca sa am 3
+		bool valid_name = IsPlayerNameValid(name);
+		try {
+			if (valid_name == false) {
+				throw DisallowedPlayerName();
+			}
+		} catch (DisallowedPlayerName &e) {
+			std::cout << e.what() << std::endl;
+			--i;
+			continue;
+		}
 
 		AddPlayer(Player(name, player_start_balance_));
 		MovePlayerAt(players_[i], 0, true);

@@ -4,11 +4,10 @@ CustomException::CustomException(const std::string &message)
 	: message_(message) {}
 
 
-// Currently unused code
-// const char *CustomException::what() const noexcept
-// {
-// 	return message_.c_str();
-// }
+const char *CustomException::what() const noexcept
+{
+	return message_.c_str();
+}
 
 FileNotFound::FileNotFound(const std::string &filename)
 	: CustomException("Error: file not found: " + filename) {}
