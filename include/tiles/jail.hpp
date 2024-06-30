@@ -10,13 +10,12 @@ public:
 	int GetJailFine() const;
 
 	void AddPlayerJailed(const std::string &player);
+	void RemovePlayerJailed(const std::string &player);
 	bool IsPlayerJailed(const std::string &player) const;
 	
 	void Reset(const std::string &bank_name) override;
 	void Print(std::ostream &os) const override;
 	
-	void RemovePlayerJailed(const std::string &player) override;
-
 private:
 	std::vector<std::string> players_jailed_;
 };

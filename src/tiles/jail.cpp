@@ -8,6 +8,11 @@ void Jail::AddPlayerJailed(const std::string &player)
 	players_jailed_.push_back(player);
 }
 
+void Jail::RemovePlayerJailed(const std::string &player)
+{
+	players_jailed_.erase(std::remove(players_jailed_.begin(), players_jailed_.end(), player), players_jailed_.end());
+}
+
 bool Jail::IsPlayerJailed(const std::string &player) const
 {
 	return std::find(players_jailed_.begin(), players_jailed_.end(), player) != players_jailed_.end();
@@ -35,9 +40,4 @@ void Jail::Print(std::ostream &os) const
 	os << padding_left << name_ << padding_right;
 	os << termcolor::reset;
 	os << std::endl;
-}
-
-void Jail::RemovePlayerJailed(const std::string &player)
-{
-	players_jailed_.erase(std::remove(players_jailed_.begin(), players_jailed_.end(), player), players_jailed_.end());
 }
