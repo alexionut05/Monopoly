@@ -507,16 +507,10 @@ void Game::InitPlayers()
 		std::cout << message;
 		std::cin >> name;
 
-		bool valid_name = IsPlayerNameValid(name);
-		try {
-			if (valid_name == false) {
-				throw DisallowedPlayerName();
-			}
-		} catch (DisallowedPlayerName &e) {
-			std::cout << e.what() << std::endl;
-			--i;
-			continue;
-		}
+		do {
+			std::cout << message;
+			std::cin >> name;
+		} while (IsPlayerNameValid(name) == false);
 
 		AddPlayer(Player(name, player_start_balance_));
 		MovePlayerAt(players_[i], 0, true);
