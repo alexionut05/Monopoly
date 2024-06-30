@@ -16,8 +16,20 @@ Game &Game::GetInstance
 	, const std::string &bank_name
 	)
 {
-	static Game instance(language, dice_min, dice_max, player_start_balance, min_players, max_players, min_name_length, max_name_length, chance_deck_size, community_deck_size, bail_value, bank_name);
-	return instance;
+	return Singleton::GetInstance
+		( language
+		, dice_min
+		, dice_max
+		, player_start_balance
+		, min_players
+		, max_players
+		, min_name_length
+		, max_name_length
+		, chance_deck_size
+		, community_deck_size
+		, bail_value
+		, bank_name
+		);
 }
 
 // Constructor

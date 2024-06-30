@@ -8,6 +8,7 @@
 #include "deck.hpp"
 #include "dice.hpp"
 #include "player.hpp"
+#include "singleton.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
@@ -18,7 +19,9 @@
 #include <rlutil/rlutil.h>
 #include <termcolor/termcolor.hpp>
 
-class Game {
+class Game : public Singleton<Game> {
+	friend class Singleton<Game>;
+	
 public:
 	Game(const Game&) = delete;
 	Game& operator=(const Game&) = delete;
