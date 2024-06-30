@@ -32,6 +32,9 @@ public:
 
 	friend std::ostream &operator<<(std::ostream &out, const Tile &tile);
 
+	// Type-dependent behavior:
+	virtual void RemovePlayerJailed(const std::string &) {};
+
 protected:
 	int tile_cost_;
 	std::string name_;

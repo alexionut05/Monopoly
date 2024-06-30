@@ -459,11 +459,7 @@ void Game::PlayTurnInJail(Player &player)
 		player.AddJailTurns();
 	} else {
 		for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
-			if (dynamic_cast<Jail*>(board_.GetTileAt(i).get()) != nullptr) {
-				Jail *jail = dynamic_cast<Jail*>(board_.GetTileAt(i).get());
-				jail->RemovePlayerJailed(player.GetName());
-				break;
-			}
+			board_.GetTileAt(i)->RemovePlayerHere(player.GetName());
 		}
 	}
 }
