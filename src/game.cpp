@@ -459,7 +459,7 @@ void Game::PlayTurnInJail(Player &player)
 		player.AddJailTurns();
 	} else {
 		for (size_t i = 0; i < board_.GetBoardSize(); ++i) {
-			board_.GetTileAt(i)->RemovePlayerHere(player.GetName());
+			board_.GetTileAt(i)->RemovePlayerJailed(player.GetName());
 		}
 	}
 }
