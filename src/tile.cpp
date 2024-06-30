@@ -56,3 +56,8 @@ std::ostream &operator<<(std::ostream &out, const Tile &tile)
 	tile.Print(out);
 	return out;
 }
+
+bool Tile::IsPlayerEnabledTile() const
+{
+	return false;
+}

@@ -15,6 +15,9 @@ public:
 	void Reset(const std::string &bank_name) override;
 	void Print(std::ostream &os) const override;
 
+	// Tile specific functions
+	bool IsPlayerEnabledTile() const override;
+
 private:
 	int tile_level_;
 	const std::array<int, 2> dice_multiplier_;

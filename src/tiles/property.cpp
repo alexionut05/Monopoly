@@ -149,3 +149,8 @@ void Property::SetPrintColour(std::ostream &os) const
 		os << termcolor::white;
 	}
 }
+
+bool Property::IsPlayerEnabledTile() const
+{
+	return true;
+}

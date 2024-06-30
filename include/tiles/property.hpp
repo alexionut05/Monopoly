@@ -48,6 +48,9 @@ public:
 	void Print(std::ostream &os) const override;
 	void SetPrintColour(std::ostream &os) const;
 
+	// Tile specific functions
+	bool IsPlayerEnabledTile() const override;
+
 private:
 	const int building_cost_;
 	int tile_level_;

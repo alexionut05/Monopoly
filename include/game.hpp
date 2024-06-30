@@ -80,7 +80,6 @@ private:
 	void MovePlayerAt(Player &player, const int position, const bool init = false);
 	void MovePlayerBy(Player &player, const int steps);
 	void MovePlayerToJail(Player &player);
-	bool IsPlayerEnabledTile(Tile *tile) const;
 	bool CanAffordTransaction(const Player &player, const int amount) const;
 	bool IsPlayerOwnedTile(Tile *tile) const;
 	int GetHousesOnTile(Tile *tile) const;

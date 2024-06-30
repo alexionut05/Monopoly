@@ -32,6 +32,9 @@ public:
 
 	friend std::ostream &operator<<(std::ostream &out, const Tile &tile);
 
+	// Tile specific functions
+	virtual bool IsPlayerEnabledTile() const;
+
 protected:
 	int tile_cost_;
 	std::string name_;

@@ -73,3 +73,8 @@ void Utility::Print(std::ostream &os) const
 
 	os << termcolor::reset << std::endl;
 }
+
+bool Utility::IsPlayerEnabledTile() const
+{
+	return true;
+}

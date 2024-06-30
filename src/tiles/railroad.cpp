@@ -74,3 +74,8 @@ void Railroad::Print(std::ostream &os) const
 
 	os << termcolor::reset << std::endl;
 }
+
+bool Railroad::IsPlayerEnabledTile() const
+{
+	return true;
+}

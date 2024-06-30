@@ -663,22 +663,6 @@ void Game::MovePlayerToJail(Player &player)
 	}
 }
 
-
-bool Game::IsPlayerEnabledTile(Tile *tile) const
-{
-	//dynamic casts to check
-	if (dynamic_cast<Property*>(tile) != nullptr) {
-		return true;
-	}
-	if (dynamic_cast<Railroad*>(tile) != nullptr) {
-		return true;
-	}
-	if (dynamic_cast<Utility*>(tile) != nullptr) {
-		return true;
-	}
-	return false;
-}
-
 bool Game::CanAffordTransaction(const Player &player, const int amount) const
 {
 	if (player.GetBalance() >= amount) {
@@ -1110,7 +1094,7 @@ void Game::ActionBuyTile(Player &player)
 {
 	Tile *tile = board_.GetTileAt(player.GetPosition()).get();
 	
-	if (IsPlayerEnabledTile(tile) == false) {
+	if (tile->IsPlayerEnabledTile() == false) {
 		std::cout << game_locales_["tile_illegal_type"].get<std::string>() << std::endl;
 		return;
 	}
